@@ -3,4 +3,10 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/nutri_clinic
     username: root
-    password: 123456 
+    password: 123456
+    
+    
+jwt:
+  token:
+    secret: ~PUl^P7NvWme[&lt;&lt;}eHsdA*|&amp;*cvf|R4NN6QBlrigz3MhMa!o)
+     
