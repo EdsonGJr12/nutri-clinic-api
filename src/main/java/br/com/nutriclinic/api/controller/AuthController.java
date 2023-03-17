@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.nutriclinic.api.controller.form.AuthForm;
+import br.com.nutriclinic.api.form.AuthForm;
 import br.com.nutriclinic.api.model.AuthTokenModel;
-import br.com.nutriclinic.repository.entity.Usuario;
-import br.com.nutriclinic.service.TokenService;
+import br.com.nutriclinic.config.TokenService;
+import br.com.nutriclinic.domain.repository.entity.Usuario;
 import jakarta.validation.Valid;
 
 @RestController

@@ -1,4 +1,4 @@
-package br.com.nutriclinic.exception;
+package br.com.nutriclinic.domain.exception;
 
 public class NegocioException extends RuntimeException {
 

@@ -1,13 +1,13 @@
 package br.com.nutriclinic.api.model;
 
 public class AuthTokenModel {
-	private String accessToken;
+	private String token;
 
-	public AuthTokenModel(String accessToken) {
-		this.accessToken = accessToken;
+	public AuthTokenModel(String token) {
+		this.token = token;
 	}
 
-	public String getAccessToken() {
-		return accessToken;
+	public String getToken() {
+		return token;
 	}
 }

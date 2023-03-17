@@ -7,8 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import br.com.nutriclinic.exception.NegocioException;
-import br.com.nutriclinic.service.TokenService;
+import br.com.nutriclinic.domain.exception.NegocioException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

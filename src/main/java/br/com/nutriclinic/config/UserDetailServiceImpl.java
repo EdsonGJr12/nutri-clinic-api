@@ -1,4 +1,4 @@
-package br.com.nutriclinic.service;
+package br.com.nutriclinic.config;
 
 import java.util.Optional;
 
@@ -8,8 +8,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import br.com.nutriclinic.repository.UsuarioRepository;
-import br.com.nutriclinic.repository.entity.Usuario;
+import br.com.nutriclinic.domain.repository.UsuarioRepository;
+import br.com.nutriclinic.domain.repository.entity.Usuario;
 
 @Service
 public class UserDetailServiceImpl implements UserDetailsService {

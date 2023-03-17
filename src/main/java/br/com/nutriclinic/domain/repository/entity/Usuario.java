@@ -1,6 +1,5 @@
-package br.com.nutriclinic.repository.entity;
+package br.com.nutriclinic.domain.repository.entity;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -58,7 +57,7 @@ public class Usuario implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return new ArrayList<GrantedAuthority>();
+		return null;
 	}
 
 	@Override

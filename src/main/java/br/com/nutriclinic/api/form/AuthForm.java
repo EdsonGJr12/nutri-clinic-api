@@ -1,4 +1,4 @@
-package br.com.nutriclinic.api.controller.form;
+package br.com.nutriclinic.api.form;
 
 import jakarta.validation.constraints.NotBlank;
 

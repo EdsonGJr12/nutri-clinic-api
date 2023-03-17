@@ -1,11 +1,11 @@
-package br.com.nutriclinic.repository;
+package br.com.nutriclinic.domain.repository;
 
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import br.com.nutriclinic.repository.entity.Usuario;
+import br.com.nutriclinic.domain.repository.entity.Usuario;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
