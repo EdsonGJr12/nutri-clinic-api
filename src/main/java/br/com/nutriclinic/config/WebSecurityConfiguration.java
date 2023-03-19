@@ -59,8 +59,6 @@ public class WebSecurityConfiguration {
 			.authenticationProvider(authenticationProvider())
 			.addFilterBefore(new AutenticacaoViaTokenFilter(tokenService),
 				UsernamePasswordAuthenticationFilter.class);
-			
-
 
 		return http.build();
 	}
