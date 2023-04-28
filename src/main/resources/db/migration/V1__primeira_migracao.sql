@@ -25,7 +25,7 @@ create table paciente(
 );
 
 
-insert into usuario(nome, login, senha) values('Edson', 'edson12.j@hotmail.com', '$2a$10$.FvcPiWS5zRSibS5URBCJen8cILgsZYss3rEbbNCC2amfPbQN/VsG');
+insert into usuario(nome, login, senha) values('Edson', '05982191370', '$2a$10$.FvcPiWS5zRSibS5URBCJen8cILgsZYss3rEbbNCC2amfPbQN/VsG');
 
 insert into nutricionista(nome, data_nascimento, cpf, id_usuario) values('Francisco Edson Gonçalves Junior', '1995-04-10', '05982191370', 1);
 
