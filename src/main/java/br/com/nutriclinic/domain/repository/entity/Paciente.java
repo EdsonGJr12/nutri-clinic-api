@@ -24,6 +24,7 @@ public class Paciente {
 	private Sexo sexo;
 	
 	private String urlAvatar;
+	
 	private String profissao;
 
 	@ManyToOne(fetch = FetchType.LAZY)
