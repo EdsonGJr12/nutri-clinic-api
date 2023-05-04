@@ -5,23 +5,29 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import br.com.nutriclinic.domain.enuns.PerfilAcesso;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
 public class Usuario implements UserDetails {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String nome;
 	private String login;
 	private String senha;
+
+	@Enumerated(EnumType.STRING)
+	private PerfilAcesso perfil;
 
 	public Long getId() {
 		return id;
@@ -88,6 +94,14 @@ public class Usuario implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+
+	public PerfilAcesso getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(PerfilAcesso perfil) {
+		this.perfil = perfil;
 	}
 
 }

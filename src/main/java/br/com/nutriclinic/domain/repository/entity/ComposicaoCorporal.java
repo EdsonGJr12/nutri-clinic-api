@@ -2,7 +2,7 @@ package br.com.nutriclinic.domain.repository.entity;
 
 import java.math.BigDecimal;
 
-import br.com.nutriclinic.domain.enums.ProtocoloComposicaoCorporal;
+import br.com.nutriclinic.domain.enuns.ProtocoloComposicaoCorporal;
 import br.com.nutriclinic.domain.enuns.TipoComposicaoCorporal;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

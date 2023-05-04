@@ -2,7 +2,7 @@ package br.com.nutriclinic.api.model;
 
 import java.time.LocalDate;
 
-import br.com.nutriclinic.domain.enums.Sexo;
+import br.com.nutriclinic.domain.enuns.Sexo;
 import br.com.nutriclinic.domain.repository.entity.Paciente;
 
 public class PacienteModel {

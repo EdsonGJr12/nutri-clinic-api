@@ -1,10 +1,13 @@
 package br.com.nutriclinic.domain.repository.entity;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
 @Entity
@@ -30,6 +33,9 @@ public class PlanoAlimentar {
 	private Boolean sexta;
 	private Boolean sabado;
 	private Boolean domingo;
+
+	@OneToMany
+	private List<Refeicao> refeicoes;
 
 	public Long getId() {
 		return id;
@@ -117,6 +123,14 @@ public class PlanoAlimentar {
 
 	public void setDomingo(Boolean domingo) {
 		this.domingo = domingo;
+	}
+
+	public List<Refeicao> getRefeicoes() {
+		return refeicoes;
+	}
+
+	public void setRefeicoes(List<Refeicao> refeicoes) {
+		this.refeicoes = refeicoes;
 	}
 
 }

@@ -1,4 +1,4 @@
-package br.com.nutriclinic.domain.enums;
+package br.com.nutriclinic.domain.enuns;
 
 public enum Sexo {
 	MASCULINO,

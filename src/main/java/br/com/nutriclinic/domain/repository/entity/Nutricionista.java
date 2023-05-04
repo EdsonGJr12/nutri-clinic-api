@@ -15,6 +15,7 @@ public class Nutricionista {
 	private Long id;
 	
 	private LocalDate dataNascimento;
+	
 	private String cpf;
 	
 	@OneToOne

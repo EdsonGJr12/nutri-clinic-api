@@ -1,6 +1,6 @@
 package br.com.nutriclinic.domain.repository.entity;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,7 +20,7 @@ public class Atendimento {
 	@JoinColumn(name = "id_nutricionista")
 	private Nutricionista nutricionista;
 
-	private LocalDate dataAtendimento;
+	private LocalDateTime dataAtendimento;
 
 	private String anamnese;
 	
@@ -40,11 +40,11 @@ public class Atendimento {
 		this.nutricionista = nutricionista;
 	}
 
-	public LocalDate getDataAtendimento() {
+	public LocalDateTime getDataAtendimento() {
 		return dataAtendimento;
 	}
 
-	public void setDataAtendimento(LocalDate dataAtendimento) {
+	public void setDataAtendimento(LocalDateTime dataAtendimento) {
 		this.dataAtendimento = dataAtendimento;
 	}
 
