@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.nutriclinic.api.form.AuthForm;
 import br.com.nutriclinic.api.model.AuthTokenModel;
 import br.com.nutriclinic.config.TokenService;
+import br.com.nutriclinic.domain.exception.NegocioException;
+import br.com.nutriclinic.domain.repository.UsuarioRepository;
 import br.com.nutriclinic.domain.repository.entity.Usuario;
 import jakarta.validation.Valid;
 
@@ -27,11 +29,16 @@ public class AuthController {
 	@Autowired
 	private TokenService tokenService;
 	
+	@Autowired
+	private UsuarioRepository usuarioRepository;
+	
 	@PostMapping
 	public AuthTokenModel autenticar(@RequestBody @Valid AuthForm authForm) {
 		Authentication authenticated = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authForm.getLogin(), authForm.getSenha()));
-		Usuario usuarioAutenticado = (Usuario)authenticated.getPrincipal();
+		Usuario usuarioAutenticado = (Usuario) authenticated.getPrincipal();
 		String tokenAcesso = tokenService.gerarTokenAcesso(usuarioAutenticado.getId());
-		return new AuthTokenModel(tokenAcesso);
+		Usuario usuario = usuarioRepository.findById(usuarioAutenticado.getId())
+			.orElseThrow(() -> new NegocioException("Usuário não encontrado"));
+		return new AuthTokenModel(tokenAcesso, usuario.getNome(), usuario.getPerfil().getDescricao());
 	}
 }
