@@ -3,22 +3,19 @@ package br.com.nutriclinic.domain.repository.entity;
 import java.util.List;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 
 @Entity
 public class PlanoAlimentar {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	@OneToOne
-	@MapsId
-	private Atendimento atendimento;
 
 	@ManyToOne
 	@JoinColumn(name = "id_paciente")
@@ -43,14 +40,6 @@ public class PlanoAlimentar {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Atendimento getAtendimento() {
-		return atendimento;
-	}
-
-	public void setAtendimento(Atendimento atendimento) {
-		this.atendimento = atendimento;
 	}
 
 	public Paciente getPaciente() {

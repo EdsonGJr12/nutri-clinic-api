@@ -4,12 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.nutriclinic.api.form.AtendimentoPacienteForm;
+import br.com.nutriclinic.api.form.AvaliacaoFisicaForm;
 import br.com.nutriclinic.api.model.AtendimentoPacienteModel;
 import br.com.nutriclinic.config.UsuarioAutenticado;
 import br.com.nutriclinic.domain.repository.entity.Atendimento;
@@ -31,9 +33,9 @@ public class AtendimentoController {
 				.body(new AtendimentoPacienteModel(novoAtendimento));
 	}
 	
-	@PostMapping("/avaliacao-fisica")
-	public void registrarAvaliacaoFisica() {
-		
+	@PostMapping("/{idAtendimento}/avaliacao-fisica")
+	public void registrarAvaliacaoFisica(@PathVariable Long idAtendimento, @RequestBody @Valid AvaliacaoFisicaForm avaliacaoFisicaForm) {
+		atendimentoService.registrarAvaliacaoFisica(idAtendimento, avaliacaoFisicaForm);
 	}
 	
 	@PostMapping("/plano-alimentar")

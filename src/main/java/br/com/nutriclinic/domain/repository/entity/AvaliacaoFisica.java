@@ -2,25 +2,23 @@ package br.com.nutriclinic.domain.repository.entity;
 
 import java.math.BigDecimal;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 
 @Entity
 public class AvaliacaoFisica {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@OneToOne
-	@MapsId
-	@JoinColumn(name = "id_atendimento")
-	private Atendimento atendimento;
-
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "id_paciente")
 	private Paciente paciente;
 
@@ -28,20 +26,20 @@ public class AvaliacaoFisica {
 
 	private BigDecimal peso;
 
+	@OneToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "id_circunferencia")
+	private Circunferencia circunferencia;
+
+	@OneToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "id_composicao_corporal")
+	private ComposicaoCorporal composicaoCorporal;
+
 	public Long getId() {
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Atendimento getAtendimento() {
-		return atendimento;
-	}
-
-	public void setAtendimento(Atendimento atendimento) {
-		this.atendimento = atendimento;
 	}
 
 	public Paciente getPaciente() {
@@ -66,6 +64,22 @@ public class AvaliacaoFisica {
 
 	public void setPeso(BigDecimal peso) {
 		this.peso = peso;
+	}
+
+	public Circunferencia getCircunferencia() {
+		return circunferencia;
+	}
+
+	public void setCircunferencia(Circunferencia circunferencia) {
+		this.circunferencia = circunferencia;
+	}
+
+	public ComposicaoCorporal getComposicaoCorporal() {
+		return composicaoCorporal;
+	}
+
+	public void setComposicaoCorporal(ComposicaoCorporal composicaoCorporal) {
+		this.composicaoCorporal = composicaoCorporal;
 	}
 
 }

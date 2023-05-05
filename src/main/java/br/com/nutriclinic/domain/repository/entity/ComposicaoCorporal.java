@@ -7,21 +7,16 @@ import br.com.nutriclinic.domain.enuns.TipoComposicaoCorporal;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.MapsId;
-import jakarta.persistence.OneToOne;
 
 @Entity
 public class ComposicaoCorporal {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	@OneToOne
-	@MapsId
-	@JoinColumn(name = "id_avaliacao_fisica")
-	private AvaliacaoFisica avaliacaoFisica;
 
 	@Enumerated(EnumType.STRING)
 	private TipoComposicaoCorporal tipo;
@@ -32,8 +27,8 @@ public class ComposicaoCorporal {
 	private BigDecimal biceps;
 	private BigDecimal abdominal;
 	private BigDecimal triceps;
-	private BigDecimal suprailica;
-	private BigDecimal axilarMedia;
+	private BigDecimal suprailiaca;
+	private BigDecimal auxiliarMedia;
 	private BigDecimal subscapular;
 	private BigDecimal torax;
 	private BigDecimal coxa;
@@ -45,14 +40,6 @@ public class ComposicaoCorporal {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public AvaliacaoFisica getAvaliacaoFisica() {
-		return avaliacaoFisica;
-	}
-
-	public void setAvaliacaoFisica(AvaliacaoFisica avaliacaoFisica) {
-		this.avaliacaoFisica = avaliacaoFisica;
 	}
 
 	public TipoComposicaoCorporal getTipo() {
@@ -95,20 +82,20 @@ public class ComposicaoCorporal {
 		this.triceps = triceps;
 	}
 
-	public BigDecimal getSuprailica() {
-		return suprailica;
+	public BigDecimal getSuprailiaca() {
+		return suprailiaca;
 	}
 
-	public void setSuprailica(BigDecimal suprailica) {
-		this.suprailica = suprailica;
+	public void setSuprailiaca(BigDecimal suprailiaca) {
+		this.suprailiaca = suprailiaca;
 	}
 
-	public BigDecimal getAxilarMedia() {
-		return axilarMedia;
+	public BigDecimal getAuxiliarMedia() {
+		return auxiliarMedia;
 	}
 
-	public void setAxilarMedia(BigDecimal axilarMedia) {
-		this.axilarMedia = axilarMedia;
+	public void setAuxiliarMedia(BigDecimal auxiliarMedia) {
+		this.auxiliarMedia = auxiliarMedia;
 	}
 
 	public BigDecimal getSubscapular() {

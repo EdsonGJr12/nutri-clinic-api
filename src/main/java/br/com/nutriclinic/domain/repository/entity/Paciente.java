@@ -6,12 +6,9 @@ import br.com.nutriclinic.domain.enuns.Sexo;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Paciente {
@@ -19,21 +16,17 @@ public class Paciente {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String nome;
-	
+
 	private LocalDate dataNascimento;
-	
+
 	@Enumerated(EnumType.STRING)
 	private Sexo sexo;
-	
-	private String urlAvatar;
-	
-	private String profissao;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_nutricionista")
-	private Nutricionista nutricionista;
+	private String urlAvatar;
+
+	private String profissao;
 
 	public Long getId() {
 		return id;
@@ -81,14 +74,6 @@ public class Paciente {
 
 	public void setProfissao(String profissao) {
 		this.profissao = profissao;
-	}
-
-	public Nutricionista getNutricionista() {
-		return nutricionista;
-	}
-
-	public void setNutricionista(Nutricionista nutricionista) {
-		this.nutricionista = nutricionista;
 	}
 
 }

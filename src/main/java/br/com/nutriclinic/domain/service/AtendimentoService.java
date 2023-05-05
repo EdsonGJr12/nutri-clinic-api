@@ -8,12 +8,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.nutriclinic.api.form.AtendimentoPacienteForm;
+import br.com.nutriclinic.api.form.AvaliacaoFisicaForm;
 import br.com.nutriclinic.config.UsuarioAutenticado;
 import br.com.nutriclinic.domain.exception.NegocioException;
 import br.com.nutriclinic.domain.repository.AtendimentoRepository;
 import br.com.nutriclinic.domain.repository.NutricionistaRepository;
 import br.com.nutriclinic.domain.repository.PacienteRepository;
 import br.com.nutriclinic.domain.repository.entity.Atendimento;
+import br.com.nutriclinic.domain.repository.entity.AvaliacaoFisica;
 import br.com.nutriclinic.domain.repository.entity.Nutricionista;
 import br.com.nutriclinic.domain.repository.entity.Paciente;
 
@@ -42,17 +44,35 @@ public class AtendimentoService {
 		paciente.setDataNascimento(atendimentoPacienteForm.getDataNascimento());
 		paciente.setProfissao(atendimentoPacienteForm.getProfissao());
 		paciente.setSexo(atendimentoPacienteForm.getSexo());
-		paciente.setNutricionista(nutricionista.get());
 		pacienteRepository.save(paciente);
 		
-		Atendimento novoAtendimento = new Atendimento();
-		novoAtendimento.setDataAtendimento(LocalDateTime.now());
-		novoAtendimento.setNutricionista(nutricionista.get());
-		novoAtendimento.setAnamnese(atendimentoPacienteForm.getAnamnese());
+		Atendimento atendimento = new Atendimento();
+		atendimento.setDataAtendimento(LocalDateTime.now());
+		atendimento.setNutricionista(nutricionista.get());
+		atendimento.setPaciente(paciente);
+		atendimento.setAnamnese(atendimentoPacienteForm.getAnamnese());
 		
-		atendimentoRepository.save(novoAtendimento);
+		atendimentoRepository.save(atendimento);
 		
-		return novoAtendimento;
+		return atendimento;
+	}
+
+	@Transactional
+	public void registrarAvaliacaoFisica(Long idAtendimento, AvaliacaoFisicaForm avaliacaoFisicaForm) {
+		Atendimento atendimento = atendimentoRepository.findById(idAtendimento)
+			.orElseThrow(() -> new NegocioException("Atendimento não encontrado"));
+		
+		AvaliacaoFisica avaliacaoFisica = getAvaliacaoFisica(avaliacaoFisicaForm);
+		avaliacaoFisica.setPaciente(atendimento.getPaciente());
+		atendimento.setAvaliacaoFisica(avaliacaoFisica);
+	}
+
+	private AvaliacaoFisica getAvaliacaoFisica(AvaliacaoFisicaForm avaliacaoFisicaForm) {
+		AvaliacaoFisica avaliacaoFisica = new AvaliacaoFisica();
+		avaliacaoFisica.setAltura(avaliacaoFisicaForm.getAltura());
+		avaliacaoFisica.setPeso(avaliacaoFisicaForm.getPeso());
+		
+		return avaliacaoFisica;
 	}
 
 }
