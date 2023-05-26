@@ -28,11 +28,11 @@ public class ComposicaoCorporal {
 	private BigDecimal abdominal;
 	private BigDecimal triceps;
 	private BigDecimal suprailiaca;
-	private BigDecimal auxiliarMedia;
+	private BigDecimal axilarMedia;
 	private BigDecimal subscapular;
 	private BigDecimal torax;
 	private BigDecimal coxa;
-	private BigDecimal panturrilhaMedia;
+	private BigDecimal panturrilhaMedial;
 
 	public Long getId() {
 		return id;
@@ -90,14 +90,6 @@ public class ComposicaoCorporal {
 		this.suprailiaca = suprailiaca;
 	}
 
-	public BigDecimal getAuxiliarMedia() {
-		return auxiliarMedia;
-	}
-
-	public void setAuxiliarMedia(BigDecimal auxiliarMedia) {
-		this.auxiliarMedia = auxiliarMedia;
-	}
-
 	public BigDecimal getSubscapular() {
 		return subscapular;
 	}
@@ -122,12 +114,20 @@ public class ComposicaoCorporal {
 		this.coxa = coxa;
 	}
 
-	public BigDecimal getPanturrilhaMedia() {
-		return panturrilhaMedia;
+	public BigDecimal getAxilarMedia() {
+		return axilarMedia;
 	}
 
-	public void setPanturrilhaMedia(BigDecimal panturrilhaMedia) {
-		this.panturrilhaMedia = panturrilhaMedia;
+	public void setAxilarMedia(BigDecimal axilarMedia) {
+		this.axilarMedia = axilarMedia;
+	}
+
+	public BigDecimal getPanturrilhaMedial() {
+		return panturrilhaMedial;
+	}
+
+	public void setPanturrilhaMedial(BigDecimal panturrilhaMedial) {
+		this.panturrilhaMedial = panturrilhaMedial;
 	}
 
 }

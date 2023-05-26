@@ -8,88 +8,88 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 public class AvaliacaoFisicaForm {
-	
+
 	@NotNull
 	@Positive
 	private BigDecimal altura;
-	
+
 	@NotNull
 	@Positive
 	private BigDecimal peso;
-	
+
 	@NotNull
 	@Positive
 	private BigDecimal bracoEsquerdoRelaxado;
-	
+
 	@NotNull
 	@Positive
 	private BigDecimal bracoDireitoRelaxado;
-	
+
 	@NotNull
 	@Positive
 	private BigDecimal bracoEsquerdoContraido;
-	
+
 	@NotNull
 	@Positive
 	private BigDecimal bracoDireitoContraido;
-	
+
 	@NotNull
 	@Positive
 	private BigDecimal antebracoDireito;
-	
+
 	@NotNull
 	@Positive
 	private BigDecimal antebracoEsquerdo;
-	
+
 	@NotNull
 	@Positive
 	private BigDecimal punhoDireito;
-	
+
 	@NotNull
 	@Positive
 	private BigDecimal punhoEsquerdo;
-	
+
 	@NotNull
 	private TipoComposicaoCorporal tipoComposicaoCorporal;
-	
-//	@NotNull
+
+	@NotNull
 	private ProtocoloComposicaoCorporal protocolo;
-	
+
 	@NotNull
 	@Positive
 	private BigDecimal biceps;
-	
+
 	@NotNull
 	@Positive
 	private BigDecimal abdominal;
-	
+
 	@NotNull
 	@Positive
 	private BigDecimal triceps;
-	
+
 	@NotNull
 	@Positive
-	private BigDecimal suprailica;
-	
+	private BigDecimal suprailiaca;
+
 	@NotNull
 	@Positive
 	private BigDecimal axilarMedia;
-	
+
 	@NotNull
 	@Positive
 	private BigDecimal subscapular;
-	
+
 	@NotNull
 	@Positive
 	private BigDecimal torax;
-	
+
 	@NotNull
 	@Positive
 	private BigDecimal coxa;
-	
+
 	@NotNull
 	@Positive
-	private BigDecimal panturrilhaMedia;
+	private BigDecimal panturrilhaMedial;
 
 	public BigDecimal getAltura() {
 		return altura;
@@ -211,14 +211,6 @@ public class AvaliacaoFisicaForm {
 		this.triceps = triceps;
 	}
 
-	public BigDecimal getSuprailica() {
-		return suprailica;
-	}
-
-	public void setSuprailica(BigDecimal suprailica) {
-		this.suprailica = suprailica;
-	}
-
 	public BigDecimal getAxilarMedia() {
 		return axilarMedia;
 	}
@@ -251,12 +243,20 @@ public class AvaliacaoFisicaForm {
 		this.coxa = coxa;
 	}
 
-	public BigDecimal getPanturrilhaMedia() {
-		return panturrilhaMedia;
+	public BigDecimal getSuprailiaca() {
+		return suprailiaca;
 	}
 
-	public void setPanturrilhaMedia(BigDecimal panturrilhaMedia) {
-		this.panturrilhaMedia = panturrilhaMedia;
+	public void setSuprailiaca(BigDecimal suprailiaca) {
+		this.suprailiaca = suprailiaca;
+	}
+
+	public BigDecimal getPanturrilhaMedial() {
+		return panturrilhaMedial;
+	}
+
+	public void setPanturrilhaMedial(BigDecimal panturrilhaMedial) {
+		this.panturrilhaMedial = panturrilhaMedial;
 	}
 
 }

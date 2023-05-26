@@ -53,11 +53,11 @@ create table composicao_corporal(
     abdominal numeric,
     triceps numeric,
     suprailiaca numeric,
-    auxiliar_media numeric,
+    axilar_media numeric,
     subscapular numeric,
     torax numeric,
     coxa numeric,
-    panturrilha_media numeric
+    panturrilha_medial numeric
 );
 
 create table avaliacao_fisica(
@@ -129,6 +129,21 @@ create table refeicao_alimento(
     foreign key(id_medida) references medida(id)
 );
 
+
+create table imc(
+	id bigint auto_increment primary key,
+	descricao varchar(50),
+	faixa_inicio numeric(10,1),
+	faixa_fim numeric(10,1),
+	classificacao varchar(20)
+);
+
+insert into imc(descricao, faixa_inicio, faixa_fim, classificacao) values('Menor que 18,5', 0, 18.4, 'Magreza');
+insert into imc(descricao, faixa_inicio, faixa_fim, classificacao) values('18,5 a 24,9', 18.5, 24.9, 'Normal');
+insert into imc(descricao, faixa_inicio, faixa_fim, classificacao) values('25 a 29,9', 25, 29.9, 'Sobrepeso');
+insert into imc(descricao, faixa_inicio, faixa_fim, classificacao) values('30 a 34,6', 30, 34.9, 'Obesidade grau I');
+insert into imc(descricao, faixa_inicio, faixa_fim, classificacao) values('35 a 39,9', 35, 39.9, 'Obesidade grau II');
+insert into imc(descricao, faixa_inicio, faixa_fim, classificacao) values('Maior que 40', 40, 99999999, 'Obesidade grau III');
 
 insert into usuario(nome, login, senha, perfil) values('Edson', '05982191370', '$2a$10$.FvcPiWS5zRSibS5URBCJen8cILgsZYss3rEbbNCC2amfPbQN/VsG', 'NUTRICIONISTA');
 insert into usuario(nome, login, senha, perfil) values('Robério', '00000000000', '$2a$10$.FvcPiWS5zRSibS5URBCJen8cILgsZYss3rEbbNCC2amfPbQN/VsG', 'NUTROLOGO');

@@ -2,6 +2,9 @@ package br.com.nutriclinic.api.form;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
+
 import br.com.nutriclinic.domain.enuns.Sexo;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -17,12 +20,13 @@ public class AtendimentoPacienteForm {
 
 	@NotNull
 	@Past
+	@JsonFormat(shape = Shape.STRING, pattern = "dd/MM/yyyy")
 	private LocalDate dataNascimento;
 
 	@NotBlank
 	private String anamnese;
 
-	@NotNull
+//	@NotNull
 	private Sexo sexo;
 
 	public String getNome() {

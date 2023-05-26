@@ -16,6 +16,7 @@ import br.com.nutriclinic.config.UsuarioAutenticado;
 import br.com.nutriclinic.domain.exception.NegocioException;
 import br.com.nutriclinic.domain.repository.NutricionistaRepository;
 import br.com.nutriclinic.domain.repository.PacienteHistoricoRepository;
+import br.com.nutriclinic.domain.repository.entity.Atendimento;
 import br.com.nutriclinic.domain.repository.entity.Nutricionista;
 import br.com.nutriclinic.domain.repository.entity.Paciente;
 import br.com.nutriclinic.domain.repository.entity.PacienteHistorico;
@@ -39,7 +40,7 @@ public class PacienteController {
 			.orElseThrow(() -> new NegocioException("Nutricionista não encontrado"));
 		
 		List<Paciente> pacientes = nutricionista.getAtendimentos().stream()
-			.map(atendimento -> atendimento.getPaciente())
+			.map(Atendimento::getPaciente)
 			.toList();
 		
 		return pacientes.stream()
