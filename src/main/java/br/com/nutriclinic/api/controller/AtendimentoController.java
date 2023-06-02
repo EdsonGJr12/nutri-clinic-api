@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.nutriclinic.api.form.AtendimentoPacienteForm;
 import br.com.nutriclinic.api.form.AvaliacaoFisicaForm;
+import br.com.nutriclinic.api.form.PlanoAlimentarForm;
 import br.com.nutriclinic.api.model.AtendimentoPacienteModel;
 import br.com.nutriclinic.api.model.AvaliacaoFisicaModel;
+import br.com.nutriclinic.api.model.PlanoAlimentarModel;
 import br.com.nutriclinic.config.UsuarioAutenticado;
 import br.com.nutriclinic.domain.repository.entity.Atendimento;
 import br.com.nutriclinic.domain.service.AtendimentoService;
@@ -40,9 +42,10 @@ public class AtendimentoController {
 		return atendimentoService.registrarAvaliacaoFisica(idAtendimento, avaliacaoFisicaForm);
 	}
 	
-	@PostMapping("/plano-alimentar")
-	public void registrarPlanoAlimentar() {
-		
+	@PostMapping("/{idAtendimento}/plano-alimentar")
+	@ResponseStatus(HttpStatus.CREATED)
+	public PlanoAlimentarModel registrarPlanoAlimentar(@PathVariable Long idAtendimento, @RequestBody @Valid PlanoAlimentarForm planoAlimentarForm) {
+		return atendimentoService.registrarPlanoAlimentar(idAtendimento, planoAlimentarForm);
 	}
 	
 }

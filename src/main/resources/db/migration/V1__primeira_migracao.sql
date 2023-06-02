@@ -105,6 +105,7 @@ create table refeicao(
 	id_plano_alimentar bigint,
     horario time,
     descricao varchar(50),
+    observacao varchar(100),
     foreign key(id_plano_alimentar) references plano_alimentar(id)
 );
 
@@ -115,7 +116,8 @@ create table alimento(
 
 create table medida(
 	id bigint auto_increment primary key,
-	descricao varchar(50)
+	descricao varchar(50),
+	descricao_apresentacao varchar(50)
 );
 
 create table refeicao_alimento(
@@ -137,6 +139,27 @@ create table imc(
 	faixa_fim numeric(10,1),
 	classificacao varchar(20)
 );
+
+insert into medida(descricao, descricao_apresentacao) values('Grama', 'grama(s)');
+insert into medida(descricao, descricao_apresentacao) values('Colher', 'colher(res)');
+insert into medida(descricao, descricao_apresentacao) values('Xícara', 'xírcara(s)');
+insert into medida(descricao, descricao_apresentacao) values('Copo', 'copo(s)');
+insert into medida(descricao, descricao_apresentacao) values('Unidade', 'unidade(s)');
+
+insert into alimento(descricao) values ('Café');
+insert into alimento(descricao) values ('Cuzcuz');
+insert into alimento(descricao) values ('Ovo');
+
+insert into alimento(descricao) values ('Filé de frango');
+insert into alimento(descricao) values ('Arroz integral');
+insert into alimento(descricao) values ('Batata doce cozida');
+
+insert into alimento(descricao) values ('Pão speciale - Multigrãos');
+insert into alimento(descricao) values ('Requeijão - Sabor e vida');
+insert into alimento(descricao) values ('Atum em conserva');
+
+insert into alimento(descricao) values ('Leite longa vida desnatado');
+insert into alimento(descricao) values ('Morango');
 
 insert into imc(descricao, faixa_inicio, faixa_fim, classificacao) values('Menor que 18,5', 0, 18.4, 'Magreza');
 insert into imc(descricao, faixa_inicio, faixa_fim, classificacao) values('18,5 a 24,9', 18.5, 24.9, 'Normal');

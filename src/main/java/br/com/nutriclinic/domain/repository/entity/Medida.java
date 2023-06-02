@@ -6,17 +6,19 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class Alimento {
+public class Medida {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String descricao;
 	
-	public Alimento() {}
+	private String descricaoApresentacao;
+	
+	public Medida() {}
 
-	public Alimento(Long id) {
+	public Medida(Long id) {
 		this.id = id;
 	}
 
@@ -34,6 +36,14 @@ public class Alimento {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+	
+	public String getDescricaoApresentacao() {
+		return descricaoApresentacao;
+	}
+	
+	public void setDescricaoApresentacao(String descricaoApresentacao) {
+		this.descricaoApresentacao = descricaoApresentacao;
 	}
 
 }

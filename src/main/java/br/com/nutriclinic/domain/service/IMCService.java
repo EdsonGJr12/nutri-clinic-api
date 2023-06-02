@@ -21,7 +21,7 @@ public class IMCService {
 		BigDecimal valorImc = calcularImc(peso, altura);
 		Imc imc = classificarImc(valorImc);
 		
-		return new ImcModel(valorImc, null, imc.getClassificacao());
+		return new ImcModel(valorImc, "18.5 - 24.9", imc.getClassificacao());
 	}
 	
 	private Imc classificarImc(BigDecimal valorImc) {

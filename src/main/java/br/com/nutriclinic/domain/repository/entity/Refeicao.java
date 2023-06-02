@@ -2,7 +2,9 @@ package br.com.nutriclinic.domain.repository.entity;
 
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Objects;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,10 +22,35 @@ public class Refeicao {
 	private LocalTime horario;
 
 	private String descricao;
-	
-	@OneToMany
+
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "id_refeicao")
 	private List<RefeicaoAlimento> alimentos;
+	
+	private String observacao;
+
+	public Refeicao() {}
+
+	public Refeicao(Long id) {
+		this.id = id;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Refeicao other = (Refeicao) obj;
+		return Objects.equals(id, other.id);
+	}
 
 	public Long getId() {
 		return id;
@@ -49,4 +76,27 @@ public class Refeicao {
 		this.descricao = descricao;
 	}
 
+	public List<RefeicaoAlimento> getAlimentos() {
+		return alimentos;
+	}
+
+	public void setAlimentos(List<RefeicaoAlimento> alimentos) {
+		this.alimentos = alimentos;
+	}
+
+	public String getObservacao() {
+		return observacao;
+	}
+	
+	public void setObservacao(String observacao) {
+		this.observacao = observacao;
+	}
+
+	public void adicionarRefeicao(RefeicaoAlimento refeicaoAlimento) {
+		this.alimentos.add(refeicaoAlimento);
+	}
+
+	public void removerAlimento(Long idRefeicaoAlimento) {
+		this.alimentos.remove(new RefeicaoAlimento(idRefeicaoAlimento));
+	}
 }

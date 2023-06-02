@@ -11,8 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.nutriclinic.api.form.AtendimentoPacienteForm;
 import br.com.nutriclinic.api.form.AvaliacaoFisicaForm;
+import br.com.nutriclinic.api.form.PlanoAlimentarForm;
+import br.com.nutriclinic.api.form.RefeicaoAlimentoForm;
+import br.com.nutriclinic.api.form.RefeicaoForm;
 import br.com.nutriclinic.api.model.AvaliacaoFisicaModel;
 import br.com.nutriclinic.api.model.ImcModel;
+import br.com.nutriclinic.api.model.PlanoAlimentarModel;
 import br.com.nutriclinic.api.model.ResultadoAvaliacaoFisicaModel;
 import br.com.nutriclinic.config.UsuarioAutenticado;
 import br.com.nutriclinic.domain.exception.NegocioException;
@@ -20,12 +24,18 @@ import br.com.nutriclinic.domain.repository.AtendimentoRepository;
 import br.com.nutriclinic.domain.repository.AvaliacaoFisicaRepository;
 import br.com.nutriclinic.domain.repository.NutricionistaRepository;
 import br.com.nutriclinic.domain.repository.PacienteRepository;
+import br.com.nutriclinic.domain.repository.PlanoAlimentarRepository;
+import br.com.nutriclinic.domain.repository.entity.Alimento;
 import br.com.nutriclinic.domain.repository.entity.Atendimento;
 import br.com.nutriclinic.domain.repository.entity.AvaliacaoFisica;
 import br.com.nutriclinic.domain.repository.entity.Circunferencia;
 import br.com.nutriclinic.domain.repository.entity.ComposicaoCorporal;
+import br.com.nutriclinic.domain.repository.entity.Medida;
 import br.com.nutriclinic.domain.repository.entity.Nutricionista;
 import br.com.nutriclinic.domain.repository.entity.Paciente;
+import br.com.nutriclinic.domain.repository.entity.PlanoAlimentar;
+import br.com.nutriclinic.domain.repository.entity.Refeicao;
+import br.com.nutriclinic.domain.repository.entity.RefeicaoAlimento;
 
 @Service
 public class AtendimentoService {
@@ -43,6 +53,9 @@ public class AtendimentoService {
 	private AvaliacaoFisicaRepository avaliacaoFisicaRepository;
 	
 	@Autowired
+	private PlanoAlimentarRepository planoAlimentarRepository;
+	
+	@Autowired
 	private IMCService imcService;
 
 	@Transactional
@@ -53,11 +66,7 @@ public class AtendimentoService {
 			throw new NegocioException("Usuário logado não é nutricionista");
 		}
 		
-		Paciente paciente = new Paciente();
-		paciente.setNome(atendimentoPacienteForm.getNome());
-		paciente.setDataNascimento(atendimentoPacienteForm.getDataNascimento());
-		paciente.setProfissao(atendimentoPacienteForm.getProfissao());
-		paciente.setSexo(atendimentoPacienteForm.getSexo());
+		Paciente paciente = getPaciente(atendimentoPacienteForm);
 		pacienteRepository.save(paciente);
 		
 		Atendimento atendimento = new Atendimento();
@@ -65,10 +74,18 @@ public class AtendimentoService {
 		atendimento.setNutricionista(nutricionista.get());
 		atendimento.setPaciente(paciente);
 		atendimento.setAnamnese(atendimentoPacienteForm.getAnamnese());
-		
 		atendimentoRepository.save(atendimento);
 		
 		return atendimento;
+	}
+
+	private Paciente getPaciente(AtendimentoPacienteForm atendimentoPacienteForm) {
+		Paciente paciente = new Paciente();
+		paciente.setNome(atendimentoPacienteForm.getNome());
+		paciente.setDataNascimento(atendimentoPacienteForm.getDataNascimento());
+		paciente.setProfissao(atendimentoPacienteForm.getProfissao());
+		paciente.setSexo(atendimentoPacienteForm.getSexo());
+		return paciente;
 	}
 
 	@Transactional
@@ -79,6 +96,7 @@ public class AtendimentoService {
 		AvaliacaoFisica avaliacaoFisica = getAvaliacaoFisica(avaliacaoFisicaForm);
 		avaliacaoFisica.setPaciente(atendimento.getPaciente());
 		avaliacaoFisicaRepository.save(avaliacaoFisica);
+		
 		atendimento.setAvaliacaoFisica(avaliacaoFisica);
 		
 		List<ResultadoAvaliacaoFisicaModel> resultados = new ArrayList<>();
@@ -90,6 +108,79 @@ public class AtendimentoService {
 		return new AvaliacaoFisicaModel(avaliacaoFisica, resultados);
 	}
 
+	@Transactional
+	public PlanoAlimentarModel registrarPlanoAlimentar(Long idAtendimento, PlanoAlimentarForm planoAlimentarForm) {
+		
+		Atendimento atendimento = atendimentoRepository.findById(idAtendimento)
+				.orElseThrow(() -> new NegocioException("Atendimento não encontrado"));
+		
+		if (atendimento.getPlanoAlimentar() != null) {
+			throw new NegocioException("Atendimento já possui um plano alimentar");
+		}
+		
+		PlanoAlimentar planoAlimentar = getPlanoAlimentar(planoAlimentarForm);
+		planoAlimentar.setPaciente(atendimento.getPaciente());
+		planoAlimentarRepository.save(planoAlimentar);
+		
+		atendimento.setPlanoAlimentar(planoAlimentar);
+		
+		return new PlanoAlimentarModel(planoAlimentar);
+	}
+	
+	private PlanoAlimentar getPlanoAlimentar(PlanoAlimentarForm planoAlimentarForm) {
+		PlanoAlimentar planoAlimentar = new PlanoAlimentar();
+		
+		planoAlimentar.setDescricao(planoAlimentarForm.getDescricao());
+		planoAlimentar.setSegunda(planoAlimentarForm.getSegunda());
+		planoAlimentar.setTerca(planoAlimentarForm.getTerca());
+		planoAlimentar.setQuarta(planoAlimentarForm.getQuarta());
+		planoAlimentar.setQuinta(planoAlimentarForm.getQuinta());
+		planoAlimentar.setSexta(planoAlimentarForm.getSexta());
+		planoAlimentar.setSabado(planoAlimentarForm.getSabado());
+		planoAlimentar.setDomingo(planoAlimentarForm.getDomingo());
+		
+		List<Refeicao> refeicoes = getRefeicoes(planoAlimentarForm);
+		
+		planoAlimentar.setRefeicoes(refeicoes);
+		
+		return planoAlimentar;
+	}
+
+	private List<Refeicao> getRefeicoes(PlanoAlimentarForm planoAlimentarForm) {
+		List<Refeicao> refeicoes = planoAlimentarForm.getRefeicoes().stream()
+			.map(this::getRefeicao)
+			.toList();
+		return refeicoes;
+	}
+
+	private Refeicao getRefeicao(RefeicaoForm refeicaoForm) {
+		Refeicao refeicao = new Refeicao();
+		refeicao.setDescricao(refeicaoForm.getDescricao());
+		refeicao.setHorario(refeicaoForm.getHorario());
+		
+		List<RefeicaoAlimento> alimentos = getAlimentos(refeicaoForm);
+		
+		refeicao.setAlimentos(alimentos);
+		
+		return refeicao;
+	}
+
+	private List<RefeicaoAlimento> getAlimentos(RefeicaoForm refeicaoForm) {
+		List<RefeicaoAlimento> alimentos = refeicaoForm.getAlimentos().stream()
+			.map(this::getAlimento)
+			.toList();
+		return alimentos;
+	}
+
+	private RefeicaoAlimento getAlimento(RefeicaoAlimentoForm alimentoForm) {
+		RefeicaoAlimento alimento = new RefeicaoAlimento();
+		alimento.setAlimento(new Alimento(alimentoForm.getIdAlimento()));
+		alimento.setQuantidade(alimentoForm.getQuantidade());
+		alimento.setMedida(new Medida(alimentoForm.getIdMedida()));
+		
+		return alimento;
+	}
+
 	private ResultadoAvaliacaoFisicaModel getResultadoImc(ImcModel imcModel) {
 		ResultadoAvaliacaoFisicaModel resultadoImc = new ResultadoAvaliacaoFisicaModel();
 		resultadoImc.setParametro("IMC");
@@ -99,7 +190,7 @@ public class AtendimentoService {
 		
 		return resultadoImc;
 	}
-
+	
 	private AvaliacaoFisica getAvaliacaoFisica(AvaliacaoFisicaForm avaliacaoFisicaForm) {
 		AvaliacaoFisica avaliacaoFisica = new AvaliacaoFisica();
 		avaliacaoFisica.setAltura(avaliacaoFisicaForm.getAltura());
@@ -125,7 +216,7 @@ public class AtendimentoService {
 		
 		return avaliacaoFisica;
 	}
-
+	
 	private Circunferencia getCircunferencia(AvaliacaoFisicaForm avaliacaoFisicaForm) {
 		Circunferencia circunferencia = new Circunferencia();
 		circunferencia.setBracoEsquerdoRelaxado(avaliacaoFisicaForm.getBracoEsquerdoRelaxado());

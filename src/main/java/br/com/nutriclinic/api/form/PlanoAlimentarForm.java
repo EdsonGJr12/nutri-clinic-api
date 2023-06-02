@@ -1,56 +1,42 @@
-package br.com.nutriclinic.domain.repository.entity;
+package br.com.nutriclinic.api.form;
 
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
-@Entity
-public class PlanoAlimentar {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-
-	@ManyToOne
-	@JoinColumn(name = "id_paciente")
-	private Paciente paciente;
-
+public class PlanoAlimentarForm {
+	
+	@NotBlank
 	private String descricao;
-
+	
+	@NotNull
 	private Boolean segunda;
+	
+	@NotNull
 	private Boolean terca;
+	
+	@NotNull
 	private Boolean quarta;
+	
+	@NotNull
 	private Boolean quinta;
+	
+	@NotNull
 	private Boolean sexta;
+	
+	@NotNull
 	private Boolean sabado;
+	
+	@NotNull
 	private Boolean domingo;
-
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	@JoinColumn(name = "id_plano_alimentar")
-	private List<Refeicao> refeicoes;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Paciente getPaciente() {
-		return paciente;
-	}
-
-	public void setPaciente(Paciente paciente) {
-		this.paciente = paciente;
-	}
+	
+	@NotNull
+	@NotEmpty
+	@Valid
+	private List<RefeicaoForm> refeicoes;
 
 	public String getDescricao() {
 		return descricao;
@@ -116,19 +102,12 @@ public class PlanoAlimentar {
 		this.domingo = domingo;
 	}
 
-	public List<Refeicao> getRefeicoes() {
+	public List<RefeicaoForm> getRefeicoes() {
 		return refeicoes;
 	}
 
-	public void setRefeicoes(List<Refeicao> refeicoes) {
+	public void setRefeicoes(List<RefeicaoForm> refeicoes) {
 		this.refeicoes = refeicoes;
 	}
 
-	public void adicionarRefeicao(Refeicao refeicao) {
-		this.refeicoes.add(refeicao);
-	}
-
-	public void removerRefeicao(Long idRefeicao) {
-		this.refeicoes.remove(new Refeicao(idRefeicao));
-	}
 }
