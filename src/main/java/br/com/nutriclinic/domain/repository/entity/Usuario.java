@@ -28,6 +28,12 @@ public class Usuario implements UserDetails {
 
 	@Enumerated(EnumType.STRING)
 	private PerfilAcesso perfil;
+	
+	public Usuario() {}
+
+	public Usuario(Long id) {
+		this.id = id;
+	}
 
 	public Long getId() {
 		return id;

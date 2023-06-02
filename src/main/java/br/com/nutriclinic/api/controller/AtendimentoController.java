@@ -44,8 +44,10 @@ public class AtendimentoController {
 	
 	@PostMapping("/{idAtendimento}/plano-alimentar")
 	@ResponseStatus(HttpStatus.CREATED)
-	public PlanoAlimentarModel registrarPlanoAlimentar(@PathVariable Long idAtendimento, @RequestBody @Valid PlanoAlimentarForm planoAlimentarForm) {
-		return atendimentoService.registrarPlanoAlimentar(idAtendimento, planoAlimentarForm);
+	public PlanoAlimentarModel registrarPlanoAlimentar(@PathVariable Long idAtendimento, 
+			@RequestBody @Valid PlanoAlimentarForm planoAlimentarForm, Authentication authentication) {
+		UsuarioAutenticado usuarioAutenticado = (UsuarioAutenticado) authentication.getPrincipal();
+		return atendimentoService.registrarPlanoAlimentar(idAtendimento, planoAlimentarForm, usuarioAutenticado);
 	}
 	
 }

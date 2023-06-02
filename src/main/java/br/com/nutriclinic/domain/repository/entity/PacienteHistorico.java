@@ -1,6 +1,6 @@
 package br.com.nutriclinic.domain.repository.entity;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import br.com.nutriclinic.domain.enuns.TipoOcorrenciaHistorico;
 import jakarta.persistence.Entity;
@@ -27,7 +27,7 @@ public class PacienteHistorico {
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;
 
-	private LocalDate dataOcorrencia;
+	private LocalDateTime dataOcorrencia;
 	
 	@Enumerated(EnumType.STRING)
 	private TipoOcorrenciaHistorico ocorrencia;
@@ -56,11 +56,11 @@ public class PacienteHistorico {
 		this.usuario = usuario;
 	}
 
-	public LocalDate getDataOcorrencia() {
+	public LocalDateTime getDataOcorrencia() {
 		return dataOcorrencia;
 	}
 
-	public void setDataOcorrencia(LocalDate dataOcorrencia) {
+	public void setDataOcorrencia(LocalDateTime dataOcorrencia) {
 		this.dataOcorrencia = dataOcorrencia;
 	}
 

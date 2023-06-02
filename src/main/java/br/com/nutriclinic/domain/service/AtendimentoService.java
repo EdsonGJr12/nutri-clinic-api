@@ -19,10 +19,12 @@ import br.com.nutriclinic.api.model.ImcModel;
 import br.com.nutriclinic.api.model.PlanoAlimentarModel;
 import br.com.nutriclinic.api.model.ResultadoAvaliacaoFisicaModel;
 import br.com.nutriclinic.config.UsuarioAutenticado;
+import br.com.nutriclinic.domain.enuns.TipoOcorrenciaHistorico;
 import br.com.nutriclinic.domain.exception.NegocioException;
 import br.com.nutriclinic.domain.repository.AtendimentoRepository;
 import br.com.nutriclinic.domain.repository.AvaliacaoFisicaRepository;
 import br.com.nutriclinic.domain.repository.NutricionistaRepository;
+import br.com.nutriclinic.domain.repository.PacienteHistoricoRepository;
 import br.com.nutriclinic.domain.repository.PacienteRepository;
 import br.com.nutriclinic.domain.repository.PlanoAlimentarRepository;
 import br.com.nutriclinic.domain.repository.entity.Alimento;
@@ -33,9 +35,11 @@ import br.com.nutriclinic.domain.repository.entity.ComposicaoCorporal;
 import br.com.nutriclinic.domain.repository.entity.Medida;
 import br.com.nutriclinic.domain.repository.entity.Nutricionista;
 import br.com.nutriclinic.domain.repository.entity.Paciente;
+import br.com.nutriclinic.domain.repository.entity.PacienteHistorico;
 import br.com.nutriclinic.domain.repository.entity.PlanoAlimentar;
 import br.com.nutriclinic.domain.repository.entity.Refeicao;
 import br.com.nutriclinic.domain.repository.entity.RefeicaoAlimento;
+import br.com.nutriclinic.domain.repository.entity.Usuario;
 
 @Service
 public class AtendimentoService {
@@ -54,6 +58,9 @@ public class AtendimentoService {
 	
 	@Autowired
 	private PlanoAlimentarRepository planoAlimentarRepository;
+	
+	@Autowired
+	private PacienteHistoricoRepository pacienteHistoricoRepository;
 	
 	@Autowired
 	private IMCService imcService;
@@ -109,7 +116,7 @@ public class AtendimentoService {
 	}
 
 	@Transactional
-	public PlanoAlimentarModel registrarPlanoAlimentar(Long idAtendimento, PlanoAlimentarForm planoAlimentarForm) {
+	public PlanoAlimentarModel registrarPlanoAlimentar(Long idAtendimento, PlanoAlimentarForm planoAlimentarForm, UsuarioAutenticado usuarioAutenticado) {
 		
 		Atendimento atendimento = atendimentoRepository.findById(idAtendimento)
 				.orElseThrow(() -> new NegocioException("Atendimento não encontrado"));
@@ -124,9 +131,23 @@ public class AtendimentoService {
 		
 		atendimento.setPlanoAlimentar(planoAlimentar);
 		
+		PacienteHistorico ocorrencia = getOcorrenciaAtendimento(atendimento, usuarioAutenticado);
+		
+		pacienteHistoricoRepository.save(ocorrencia);
+		
 		return new PlanoAlimentarModel(planoAlimentar);
 	}
 	
+	private PacienteHistorico getOcorrenciaAtendimento(Atendimento atendimento, UsuarioAutenticado usuarioAutenticado) {
+		PacienteHistorico ocorrencia = new PacienteHistorico();
+		ocorrencia.setDataOcorrencia(LocalDateTime.now());
+		ocorrencia.setUsuario(new Usuario(usuarioAutenticado.getId()));
+		ocorrencia.setPaciente(atendimento.getPaciente());
+		ocorrencia.setOcorrencia(TipoOcorrenciaHistorico.ATENDIMENTO_NUTRICIONISTA);
+		
+		return ocorrencia;
+	}
+
 	private PlanoAlimentar getPlanoAlimentar(PlanoAlimentarForm planoAlimentarForm) {
 		PlanoAlimentar planoAlimentar = new PlanoAlimentar();
 		
