@@ -1,9 +1,11 @@
 package br.com.nutriclinic.domain.repository.entity;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -18,7 +20,7 @@ public class PlanoAlimentar {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_paciente")
 	private Paciente paciente;
 
@@ -35,6 +37,8 @@ public class PlanoAlimentar {
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "id_plano_alimentar")
 	private List<Refeicao> refeicoes;
+	
+	private LocalDateTime dataHoraInclusao;
 
 	public Long getId() {
 		return id;
@@ -130,5 +134,13 @@ public class PlanoAlimentar {
 
 	public void removerRefeicao(Long idRefeicao) {
 		this.refeicoes.remove(new Refeicao(idRefeicao));
+	}
+	
+	public LocalDateTime getDataHoraInclusao() {
+		return dataHoraInclusao;
+	}
+	
+	public void setDataHoraInclusao(LocalDateTime dataHoraInclusao) {
+		this.dataHoraInclusao = dataHoraInclusao;
 	}
 }

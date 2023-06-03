@@ -15,12 +15,13 @@ create table nutricionista(
 );
 
 create table paciente(
-	id bigint auto_increment primary key,
+	id_usuario bigint auto_increment primary key,
     nome varchar(150),
     data_nascimento datetime,
     sexo varchar(10),
     url_avatar varchar(50),
-    profissao varchar(100)
+    profissao varchar(100),
+    cpf varchar(11) not null
 );
 
 create table paciente_historico(
@@ -29,7 +30,7 @@ create table paciente_historico(
     id_usuario bigint,
     data_ocorrencia datetime,
     ocorrencia varchar(50),
-    foreign key(id_paciente) references paciente(id),
+    foreign key(id_paciente) references paciente(id_usuario),
     foreign key(id_usuario) references usuario(id)
 );
 
@@ -67,7 +68,7 @@ create table avaliacao_fisica(
     peso numeric,
     id_circunferencia bigint,
     id_composicao_corporal bigint,
-    foreign key(id_paciente) references paciente(id),
+    foreign key(id_paciente) references paciente(id_usuario),
     foreign key(id_circunferencia) references circunferencia(id),
     foreign key(id_composicao_corporal) references composicao_corporal(id)
 );
@@ -83,7 +84,8 @@ create table plano_alimentar(
     sexta boolean,
     sabado boolean,
     domingo boolean,
-    foreign key(id_paciente) references paciente(id)
+    data_hora_inclusao timestamp,
+    foreign key(id_paciente) references paciente(id_usuario)
 );
 
 create table atendimento(
@@ -95,7 +97,7 @@ create table atendimento(
     data_atendimento datetime,
     anamnese varchar(200),
     foreign key(id_nutricionista) references nutricionista(id_usuario),
-    foreign key(id_paciente) references paciente(id),
+    foreign key(id_paciente) references paciente(id_usuario),
     foreign key(id_avaliacao_fisica) references avaliacao_fisica(id),
     foreign key(id_plano_alimentar) references plano_alimentar(id)
 );
@@ -130,7 +132,6 @@ create table refeicao_alimento(
     foreign key(id_alimento) references alimento(id),
     foreign key(id_medida) references medida(id)
 );
-
 
 create table imc(
 	id bigint auto_increment primary key,
@@ -169,29 +170,50 @@ insert into imc(descricao, faixa_inicio, faixa_fim, classificacao) values('35 a 
 insert into imc(descricao, faixa_inicio, faixa_fim, classificacao) values('Maior que 40', 40, 99999999, 'Obesidade grau III');
 
 insert into usuario(nome, login, senha, perfil) values('Edson', '05982191370', '$2a$10$.FvcPiWS5zRSibS5URBCJen8cILgsZYss3rEbbNCC2amfPbQN/VsG', 'NUTRICIONISTA');
-insert into usuario(nome, login, senha, perfil) values('Robério', '00000000000', '$2a$10$.FvcPiWS5zRSibS5URBCJen8cILgsZYss3rEbbNCC2amfPbQN/VsG', 'NUTROLOGO');
 insert into usuario(nome, login, senha, perfil) values('Igor', '11111111111', '$2a$10$.FvcPiWS5zRSibS5URBCJen8cILgsZYss3rEbbNCC2amfPbQN/VsG', 'NUTRICIONISTA');
-insert into usuario(nome, login, senha, perfil) values('Vanessa', '22222222222', '$2a$10$.FvcPiWS5zRSibS5URBCJen8cILgsZYss3rEbbNCC2amfPbQN/VsG', 'ENFERMEIRA');
 insert into usuario(nome, login, senha, perfil) values('Rafael', '33333333333', '$2a$10$.FvcPiWS5zRSibS5URBCJen8cILgsZYss3rEbbNCC2amfPbQN/VsG', 'NUTRICIONISTA');
+
+insert into usuario(nome, login, senha, perfil) values('Robério', '00000000000', '$2a$10$.FvcPiWS5zRSibS5URBCJen8cILgsZYss3rEbbNCC2amfPbQN/VsG', 'PACIENTE');
+insert into usuario(nome, login, senha, perfil) values('Vanessa', '22222222222', '$2a$10$.FvcPiWS5zRSibS5URBCJen8cILgsZYss3rEbbNCC2amfPbQN/VsG', 'PACIENTE');
+insert into usuario(nome, login, senha, perfil) values('Francisco', '43014089320', '$2a$10$.FvcPiWS5zRSibS5URBCJen8cILgsZYss3rEbbNCC2amfPbQN/VsG', 'PACIENTE');
 
 insert into nutricionista(nome, data_nascimento, cpf, id_usuario) values('Francisco Edson', '1995-04-10', '05982191370', 1);
 insert into nutricionista(nome, data_nascimento, cpf, id_usuario) values('José Robério', '1995-04-10', '00000000000', 2);
 insert into nutricionista(nome, data_nascimento, cpf, id_usuario) values('Igor da Silva', '1995-04-10', '11111111111', 3);
-insert into nutricionista(nome, data_nascimento, cpf, id_usuario) values('Vanessa Camargo', '1995-04-10', '22222222222', 4);
-insert into nutricionista(nome, data_nascimento, cpf, id_usuario) values('Rafael Lisboa', '1995-04-10', '33333333333', 5);
 
-insert into paciente(nome, data_nascimento, sexo, profissao) values('Marcos Gomes da Silva', '1995-04-11', 'MASCULINO', 'Professor');
-insert into paciente(nome, data_nascimento, sexo, profissao) values('Maria Josefa de Alencar', '1986-12-07', 'FEMININO', 'Engenheira Química');
-insert into paciente(nome, data_nascimento, sexo, profissao) values('Mônica Barreto Aguiar', '1979-04-06', 'FEMININO', 'Médica');
-insert into paciente(nome, data_nascimento, sexo, profissao) values('Cássio Fernandes Sousa', '2001-04-10', 'MASCULINO', 'Analista de Sistemas');
+insert into paciente(id_usuario, nome, cpf, data_nascimento, sexo, profissao) values(4, 'Robério da Silva Xavier', '00000000000', '1995-04-11', 'MASCULINO', 'Professor');
+insert into paciente(id_usuario, nome, cpf, data_nascimento, sexo, profissao) values(5, 'Vanessa da Rocha Pinho', '22222222222', '1986-12-07', 'FEMININO', 'Engenheira Química');
+insert into paciente(id_usuario, nome, cpf, data_nascimento, sexo, profissao) values(6, 'Francisco Moneteiro Junior', '43014089320', '1979-04-06', 'MASCULINO', 'MédicO');
 
-insert into atendimento(id_paciente, id_nutricionista, data_atendimento) values(1, 1, '2023-04-15');
-insert into atendimento(id_paciente, id_nutricionista, data_atendimento) values(2, 1, '2023-04-15');
-insert into atendimento(id_paciente, id_nutricionista, data_atendimento) values(3, 1, '2023-04-15');
-insert into atendimento(id_paciente, id_nutricionista, data_atendimento) values(4, 1, '2023-04-15');
+insert into circunferencia(braco_esquerdo_relaxado, braco_direito_relaxado, braco_esquerdo_contraido, braco_direito_contraido, antebraco_direito, antebraco_esquerdo, punho_direito, punho_esquerdo) values(1, 2, 3, 4, 5, 6, 7, 8);
 
-insert into paciente_historico(id_paciente, id_usuario, data_ocorrencia, ocorrencia) values(1, 1, '2023-04-15', 'ATENDIMENTO_NUTRICIONISTA');
-insert into paciente_historico(id_paciente, id_usuario, data_ocorrencia, ocorrencia) values(1, 2, '2022-11-04', 'ATENDIMENTO_NUTROLOGO');
-insert into paciente_historico(id_paciente, id_usuario, data_ocorrencia, ocorrencia) values(1, 1, '2022-11-04', 'REGISTRO_ACOMPANHAMENTO');
-insert into paciente_historico(id_paciente, id_usuario, data_ocorrencia, ocorrencia) values(1, 4, '2020-09-01', 'ATENDIMENTO_ENFERMAGEM');
-insert into paciente_historico(id_paciente, id_usuario, data_ocorrencia, ocorrencia) values(1, 5, '2023-04-15', 'ATENDIMENTO_NUTRICIONISTA');
+insert into composicao_corporal(tipo, protocolo, biceps, abdominal, triceps, suprailiaca, axilar_media, subscapular, torax, coxa, panturrilha_medial) values('PREGAS_CUTANEAS', 'QUATRO_PREGAS_FAULKNER', 1, 2, 3, 4, 5, 6, 7, 8, 9);
+
+insert into avaliacao_fisica(id_paciente, altura, peso, id_circunferencia, id_composicao_corporal) values(6, 1.73, 79.5, 1, 1);
+
+insert into plano_alimentar(id_paciente, descricao, data_hora_inclusao, segunda, terca, quarta, quinta, sexta, sabado, domingo) values(6, 'Plano alimentar do Francisco', current_timestamp(), true, true, true, true, true, true, true);
+
+insert into refeicao(id_plano_alimentar, horario, descricao, observacao) values(1, '07:00', 'Café da manhã', null);
+insert into refeicao(id_plano_alimentar, horario, descricao, observacao) values(1, '12:00', 'Almoço', null);
+insert into refeicao(id_plano_alimentar, horario, descricao, observacao) values(1, '15:30', 'Lanche da tarde', null);
+insert into refeicao(id_plano_alimentar, horario, descricao, observacao) values(1, '19:00', 'Jantar', null);
+insert into refeicao(id_plano_alimentar, horario, descricao, observacao) values(1, '22:00', 'Ceia', null);
+
+insert into refeicao_alimento(id_refeicao, id_alimento, quantidade, id_medida) values(1, 1, 10, 3);
+insert into refeicao_alimento(id_refeicao, id_alimento, quantidade, id_medida) values(1, 2, 20, 1);
+insert into refeicao_alimento(id_refeicao, id_alimento, quantidade, id_medida) values(1, 3, 30, 5);
+
+insert into refeicao_alimento(id_refeicao, id_alimento, quantidade, id_medida) values(2, 4, 40, 1);
+insert into refeicao_alimento(id_refeicao, id_alimento, quantidade, id_medida) values(2, 5, 50, 1);
+insert into refeicao_alimento(id_refeicao, id_alimento, quantidade, id_medida) values(2, 6, 60, 1);
+
+insert into refeicao_alimento(id_refeicao, id_alimento, quantidade, id_medida) values(3, 7, 70, 1);
+insert into refeicao_alimento(id_refeicao, id_alimento, quantidade, id_medida) values(3, 8, 80, 2);
+insert into refeicao_alimento(id_refeicao, id_alimento, quantidade, id_medida) values(3, 9, 90, 1);
+
+insert into refeicao_alimento(id_refeicao, id_alimento, quantidade, id_medida) values(4, 10, 100, 4);
+insert into refeicao_alimento(id_refeicao, id_alimento, quantidade, id_medida) values(4, 11, 110, 1);
+
+insert into atendimento(id_paciente, id_nutricionista, data_atendimento) values(6, 1, '2023-04-15');
+
+insert into paciente_historico(id_paciente, id_usuario, data_ocorrencia, ocorrencia) values(6, 1, '2023-04-15', 'ATENDIMENTO_NUTRICIONISTA');

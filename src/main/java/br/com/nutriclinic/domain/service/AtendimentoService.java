@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,7 @@ import br.com.nutriclinic.api.model.ImcModel;
 import br.com.nutriclinic.api.model.PlanoAlimentarModel;
 import br.com.nutriclinic.api.model.ResultadoAvaliacaoFisicaModel;
 import br.com.nutriclinic.config.UsuarioAutenticado;
+import br.com.nutriclinic.domain.enuns.PerfilAcesso;
 import br.com.nutriclinic.domain.enuns.TipoOcorrenciaHistorico;
 import br.com.nutriclinic.domain.exception.NegocioException;
 import br.com.nutriclinic.domain.repository.AtendimentoRepository;
@@ -64,6 +66,9 @@ public class AtendimentoService {
 	
 	@Autowired
 	private IMCService imcService;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Transactional
 	public Atendimento iniciarAtendimento(AtendimentoPacienteForm atendimentoPacienteForm, UsuarioAutenticado usuarioAutenticado) {
@@ -74,6 +79,12 @@ public class AtendimentoService {
 		}
 		
 		Paciente paciente = getPaciente(atendimentoPacienteForm);
+		
+		Usuario usuario = new Usuario();
+		usuario.setLogin(paciente.getCpf());
+		usuario.setSenha(passwordEncoder.encode("123456"));
+		usuario.setPerfil(PerfilAcesso.PACIENTE);
+		
 		pacienteRepository.save(paciente);
 		
 		Atendimento atendimento = new Atendimento();
@@ -151,6 +162,7 @@ public class AtendimentoService {
 	private PlanoAlimentar getPlanoAlimentar(PlanoAlimentarForm planoAlimentarForm) {
 		PlanoAlimentar planoAlimentar = new PlanoAlimentar();
 		
+		planoAlimentar.setDataHoraInclusao(LocalDateTime.now());
 		planoAlimentar.setDescricao(planoAlimentarForm.getDescricao());
 		planoAlimentar.setSegunda(planoAlimentarForm.getSegunda());
 		planoAlimentar.setTerca(planoAlimentarForm.getTerca());

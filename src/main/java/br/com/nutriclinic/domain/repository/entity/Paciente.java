@@ -6,15 +6,15 @@ import br.com.nutriclinic.domain.enuns.Sexo;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Paciente {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	private String nome;
@@ -27,6 +27,13 @@ public class Paciente {
 	private String urlAvatar;
 
 	private String profissao;
+
+	@OneToOne
+	@MapsId
+	@JoinColumn(name = "id_usuario")
+	private Usuario usuario;
+
+	private String cpf;
 
 	public Long getId() {
 		return id;
@@ -74,6 +81,14 @@ public class Paciente {
 
 	public void setProfissao(String profissao) {
 		this.profissao = profissao;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
 }

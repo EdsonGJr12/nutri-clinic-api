@@ -27,8 +27,7 @@ public class RefeicaoAlimento {
 	@JoinColumn(name = "id_medida")
 	private Medida medida;
 
-	public RefeicaoAlimento() {
-	}
+	public RefeicaoAlimento() {}
 
 	public RefeicaoAlimento(Long id) {
 		this.id = id;

@@ -3,7 +3,8 @@ package br.com.nutriclinic.domain.enuns;
 public enum PerfilAcesso {
 	NUTRICIONISTA("Nutricionista"),
 	NUTROLOGO("Nutrólogo"),
-	ENFERMEIRA("Enfermeira");
+	ENFERMEIRA("Enfermeira"),
+	PACIENTE("Paciente");
 
 	private String descricao;
 
