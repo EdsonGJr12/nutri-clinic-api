@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -182,7 +183,7 @@ public class AtendimentoService {
 	private List<Refeicao> getRefeicoes(PlanoAlimentarForm planoAlimentarForm) {
 		List<Refeicao> refeicoes = planoAlimentarForm.getRefeicoes().stream()
 			.map(this::getRefeicao)
-			.toList();
+			.collect(Collectors.toList());
 		return refeicoes;
 	}
 
@@ -201,7 +202,7 @@ public class AtendimentoService {
 	private List<RefeicaoAlimento> getAlimentos(RefeicaoForm refeicaoForm) {
 		List<RefeicaoAlimento> alimentos = refeicaoForm.getAlimentos().stream()
 			.map(this::getAlimento)
-			.toList();
+			.collect(Collectors.toList());
 		return alimentos;
 	}
 

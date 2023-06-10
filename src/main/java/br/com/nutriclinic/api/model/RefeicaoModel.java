@@ -2,6 +2,7 @@ package br.com.nutriclinic.api.model;
 
 import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import br.com.nutriclinic.domain.repository.entity.Refeicao;
 
@@ -18,7 +19,7 @@ public class RefeicaoModel {
 		this.horario = refeicao.getHorario();
 		this.alimentos = refeicao.getAlimentos().stream()
 				.map(RefeicaoAlimentoModel::new)
-				.toList();
+				.collect(Collectors.toList());
 	}
 	
 	public Long getId() {

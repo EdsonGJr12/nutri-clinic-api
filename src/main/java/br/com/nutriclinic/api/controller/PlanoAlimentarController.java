@@ -1,6 +1,7 @@
 package br.com.nutriclinic.api.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -44,7 +45,7 @@ public class PlanoAlimentarController {
 		return planoAlimentar.getRefeicoes().stream()
 				.sorted((refeicao1, refeicao2) -> refeicao1.getHorario().compareTo(refeicao2.getHorario()))
 				.map(RefeicaoModel::new)
-				.toList();
+				.collect(Collectors.toList());
 	}
 	
 	@PostMapping("/{idPlanoAlimentar}/refeicoes")

@@ -159,6 +159,8 @@ insert into alimento(descricao) values ('Pão speciale - Multigrãos');
 insert into alimento(descricao) values ('Requeijão - Sabor e vida');
 insert into alimento(descricao) values ('Atum em conserva');
 
+insert into alimento(descricao) values ('Suco de manga'); 
+
 insert into alimento(descricao) values ('Leite longa vida desnatado');
 insert into alimento(descricao) values ('Morango');
 
@@ -211,8 +213,12 @@ insert into refeicao_alimento(id_refeicao, id_alimento, quantidade, id_medida) v
 insert into refeicao_alimento(id_refeicao, id_alimento, quantidade, id_medida) values(3, 8, 80, 2);
 insert into refeicao_alimento(id_refeicao, id_alimento, quantidade, id_medida) values(3, 9, 90, 1);
 
-insert into refeicao_alimento(id_refeicao, id_alimento, quantidade, id_medida) values(4, 10, 100, 4);
-insert into refeicao_alimento(id_refeicao, id_alimento, quantidade, id_medida) values(4, 11, 110, 1);
+insert into refeicao_alimento(id_refeicao, id_alimento, quantidade, id_medida) values(4, 4, 200, 1);
+insert into refeicao_alimento(id_refeicao, id_alimento, quantidade, id_medida) values(4, 5, 100, 1);
+insert into refeicao_alimento(id_refeicao, id_alimento, quantidade, id_medida) values(4, 10, 1, 4);
+
+insert into refeicao_alimento(id_refeicao, id_alimento, quantidade, id_medida) values(5, 11, 100, 4);
+insert into refeicao_alimento(id_refeicao, id_alimento, quantidade, id_medida) values(5, 12, 110, 1);
 
 insert into atendimento(id_paciente, id_nutricionista, data_atendimento) values(6, 1, '2023-04-15');
 

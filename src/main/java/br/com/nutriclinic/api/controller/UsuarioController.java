@@ -1,6 +1,7 @@
 package br.com.nutriclinic.api.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -34,7 +35,7 @@ public class UsuarioController {
 	public List<UsuarioModel> pesquisarUsuarios() {
 		return usuarioRepository.findAll().stream()
 				.map(UsuarioModel::new)
-				.toList();
+				.collect(Collectors.toList());
 	}
 	
 	@PostMapping

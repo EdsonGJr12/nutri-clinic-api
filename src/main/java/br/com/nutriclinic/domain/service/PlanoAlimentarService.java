@@ -1,6 +1,7 @@
 package br.com.nutriclinic.domain.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -122,7 +123,7 @@ public class PlanoAlimentarService {
 	private List<RefeicaoAlimento> getAlimentos(RefeicaoForm refeicaoForm) {
 		List<RefeicaoAlimento> alimentos = refeicaoForm.getAlimentos().stream()
 			.map(this::getAlimento)
-			.toList();
+			.collect(Collectors.toList());
 		return alimentos;
 	}
 

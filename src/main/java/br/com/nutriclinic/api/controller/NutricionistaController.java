@@ -1,6 +1,7 @@
 package br.com.nutriclinic.api.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -41,11 +42,11 @@ public class NutricionistaController {
 		
 		List<Paciente> pacientes = nutricionista.getAtendimentos().stream()
 			.map(Atendimento::getPaciente)
-			.toList();
+			.collect(Collectors.toList());
 		
 		return pacientes.stream()
 				.map(PacienteModel::new)
-				.toList();
+				.collect(Collectors.toList());
 	}
 	
 	@GetMapping("/pacientes/{idPaciente}/historico")
@@ -54,6 +55,6 @@ public class NutricionistaController {
 		
 		return historico.stream()
 				.map(PacienteHistoricoModel::new)
-				.toList();
+				.collect(Collectors.toList());
 	}
 }

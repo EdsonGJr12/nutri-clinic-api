@@ -3,6 +3,7 @@ package br.com.nutriclinic.api.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,11 +12,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.nutriclinic.api.model.DiaSemanaModel;
 import br.com.nutriclinic.api.model.PlanoAlimentarModel;
 import br.com.nutriclinic.api.model.RefeicaoDiaModel;
+import br.com.nutriclinic.api.model.RefeicaoDiaResumoModel;
 import br.com.nutriclinic.domain.exception.NegocioException;
 import br.com.nutriclinic.domain.repository.PlanoAlimentarRepository;
 import br.com.nutriclinic.domain.repository.entity.PlanoAlimentar;
+import br.com.nutriclinic.domain.repository.entity.Refeicao;
+import br.com.nutriclinic.domain.repository.entity.RefeicaoAlimento;
 
 @RestController
 @RequestMapping("/pacientes")
@@ -36,32 +41,60 @@ public class PacienteController {
 	}
 	
 	@GetMapping("/{idPaciente}/ultimo-plano/dias-semana")
-	public List<Integer> buscarDiasNaSemanaComPlano(@PathVariable Long idPaciente) {
-		List<Integer> diasSemana = new ArrayList<>();
+	public List<DiaSemanaModel> buscarDiasNaSemanaComPlano(@PathVariable Long idPaciente) {
+		List<DiaSemanaModel> diasSemana = new ArrayList<>();
 		
 		Optional<PlanoAlimentar> planoAlimentarOp = planoAlimentarRepository.findFirstByPacienteIdOrderByDataHoraInclusaoDesc(idPaciente);
 		if (planoAlimentarOp.isPresent()) {
 			PlanoAlimentar planoAlimentar = planoAlimentarOp.get();
 			if (planoAlimentar.getSegunda()) {
-				diasSemana.add(1);
+				DiaSemanaModel segunda = new DiaSemanaModel();
+				segunda.setCodigo(2);
+				segunda.setDiaSemana("Segunda");
+				segunda.setDiaSemanaResumida("SEG");
+				diasSemana.add(segunda);
 			}
 			if (planoAlimentar.getTerca()) {
-				diasSemana.add(2);
+				DiaSemanaModel terca = new DiaSemanaModel();
+				terca.setCodigo(3);
+				terca.setDiaSemana("Terça");
+				terca.setDiaSemanaResumida("TER");
+				diasSemana.add(terca);
 			}
 			if (planoAlimentar.getQuarta()) {
-				diasSemana.add(3);
+				DiaSemanaModel quarta = new DiaSemanaModel();
+				quarta.setCodigo(4);
+				quarta.setDiaSemana("Quarta");
+				quarta.setDiaSemanaResumida("QUA");
+				diasSemana.add(quarta);
 			}
 			if (planoAlimentar.getQuinta()) {
-				diasSemana.add(4);
+				DiaSemanaModel quinta = new DiaSemanaModel();
+				quinta.setCodigo(4);
+				quinta.setDiaSemana("Quinta");
+				quinta.setDiaSemanaResumida("QUI");
+				diasSemana.add(quinta);
 			}
 			if (planoAlimentar.getSexta()) {
-				diasSemana.add(5);
+				DiaSemanaModel sexta = new DiaSemanaModel();
+				sexta.setCodigo(4);
+				sexta.setDiaSemana("Sexta");
+				sexta.setDiaSemanaResumida("SEX");
+				diasSemana.add(sexta);
 			}
 			if (planoAlimentar.getSabado()) {
-				diasSemana.add(6);
+				DiaSemanaModel sabado = new DiaSemanaModel();
+				sabado.setCodigo(4);
+				sabado.setDiaSemana("Sábado");
+				sabado.setDiaSemanaResumida("SAB");
+				diasSemana.add(sabado);
 			}
 			if (planoAlimentar.getDomingo()) {
-				diasSemana.add(7);
+				DiaSemanaModel domingo = new DiaSemanaModel();
+				domingo.setCodigo(4);
+				domingo.setDiaSemana("Domingo");
+				domingo.setDiaSemanaResumida("DOM");
+				diasSemana.add(domingo);
 			}
 		} else {
 			throw new NegocioException("Plano alimentar não encontrado");
@@ -70,7 +103,7 @@ public class PacienteController {
 		return diasSemana;
 	}
 	
-	@GetMapping("/{idPaciente}/ultimo-plano/dias-semana/{diaSemana}")
+	@GetMapping("/{idPaciente}/ultimo-plano/dias-semana/{diaSemana}/refeicoes")
 	public RefeicaoDiaModel buscarRefeicoes(@PathVariable Long idPaciente, @PathVariable Integer diaSemana) {
 		RefeicaoDiaModel refeicaoDiaModel = new RefeicaoDiaModel();
 		
@@ -78,29 +111,35 @@ public class PacienteController {
 		if (planoAlimentarOp.isPresent()) {
 			PlanoAlimentar planoAlimentar = planoAlimentarOp.get();
 			
-			refeicaoDiaModel.setRefeicoes(planoAlimentar.getRefeicoes().stream().map(refeicao -> {
-				return refeicao.getDescricao() + "---------------" + refeicao.getHorario();
-			}).toList());
+			List<RefeicaoDiaResumoModel> refeicoes = planoAlimentar.getRefeicoes().stream().map(refeicao -> {
+				RefeicaoDiaResumoModel refeicaoDia = new RefeicaoDiaResumoModel();
+				refeicaoDia.setId(refeicao.getId());
+				refeicaoDia.setDescricao(refeicao.getDescricao());
+				refeicaoDia.setHorario(refeicao.getHorario());
+				return refeicaoDia;
+			}).collect(Collectors.toList());
 			
-			if (diaSemana.equals(1)) {
+			refeicaoDiaModel.setRefeicoes(refeicoes);
+			
+			if (diaSemana.equals(2)) {
 				refeicaoDiaModel.setDiaSemana("Segunda");
 			}
-			if (planoAlimentar.getTerca()) {
+			if (diaSemana.equals(3)) {
 				refeicaoDiaModel.setDiaSemana("Terça");
 			}
-			if (planoAlimentar.getQuarta()) {
+			if (diaSemana.equals(4)) {
 				refeicaoDiaModel.setDiaSemana("Quarta");
 			}
-			if (planoAlimentar.getQuinta()) {
+			if (diaSemana.equals(5)) {
 				refeicaoDiaModel.setDiaSemana("Quinta");
 			}
-			if (planoAlimentar.getSexta()) {
+			if (diaSemana.equals(6)) {
 				refeicaoDiaModel.setDiaSemana("Sexta");
 			}
-			if (planoAlimentar.getSabado()) {
+			if (diaSemana.equals(7)) {
 				refeicaoDiaModel.setDiaSemana("Sábado");
 			}
-			if (planoAlimentar.getDomingo()) {
+			if (diaSemana.equals(1)) {
 				refeicaoDiaModel.setDiaSemana("Domingo");
 			}
 		} else {
@@ -108,5 +147,52 @@ public class PacienteController {
 		}
 		
 		return refeicaoDiaModel;
+	}
+	
+	@GetMapping("/{idPaciente}/ultimo-plano/dias-semana/{diaSemana}/refeicoes/{idRefeicao}/alimentos")
+	public List<String> buscarAlimentosDaRefeicao(@PathVariable Long idPaciente, @PathVariable Integer diaSemana, @PathVariable Long idRefeicao) {
+		List<String> alimentos = new ArrayList<>();
+		
+		Optional<PlanoAlimentar> planoAlimentarOp = planoAlimentarRepository.findFirstByPacienteIdOrderByDataHoraInclusaoDesc(idPaciente);
+		if (planoAlimentarOp.isPresent()) {
+			PlanoAlimentar planoAlimentar = planoAlimentarOp.get();
+			
+			if (diaSemana == 1 && !planoAlimentar.getDomingo()) {
+				return alimentos;
+			}
+			
+			if (diaSemana == 2 && !planoAlimentar.getSegunda()) {
+				return alimentos;
+			}
+			
+			if (diaSemana == 3 && !planoAlimentar.getTerca()) {
+				return alimentos;
+			}
+			
+			if (diaSemana == 4 && !planoAlimentar.getQuarta()) {
+				return alimentos;
+			}
+			
+			if (diaSemana == 5 && !planoAlimentar.getQuinta()) {
+				return alimentos;
+			}
+			
+			if (diaSemana == 6 && !planoAlimentar.getSexta()) {
+				return alimentos;
+			}
+			
+			Refeicao refeicaoEncontrada = planoAlimentar.getRefeicoes().stream()
+				.filter(refeicao -> refeicao.getId().equals(idRefeicao))
+				.findFirst()
+				.get();
+			
+			List<RefeicaoAlimento> alimentosDaRefeicao = refeicaoEncontrada.getAlimentos();
+			return alimentosDaRefeicao.stream()
+				.map(alimento -> String.format("%s (%s %s)", alimento.getAlimento().getDescricao(), alimento.getQuantidade(), alimento.getMedida().getDescricaoApresentacao()))
+				.collect(Collectors.toList());
+			
+		} else {
+			throw new NegocioException("Plano alimentar não encontrado");
+		}
 	}
 }
