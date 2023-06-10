@@ -2,6 +2,8 @@ package br.com.nutriclinic.api.form;
 
 import java.time.LocalDate;
 
+import org.hibernate.validator.constraints.br.CPF;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
@@ -26,8 +28,12 @@ public class AtendimentoPacienteForm {
 	@NotBlank
 	private String anamnese;
 
-//	@NotNull
+	@NotNull
 	private Sexo sexo;
+
+	@CPF
+	@NotBlank
+	private String cpf;
 
 	public String getNome() {
 		return nome;
@@ -67,6 +73,14 @@ public class AtendimentoPacienteForm {
 
 	public void setSexo(Sexo sexo) {
 		this.sexo = sexo;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
 }

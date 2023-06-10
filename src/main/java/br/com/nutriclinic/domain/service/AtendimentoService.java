@@ -82,9 +82,12 @@ public class AtendimentoService {
 		Paciente paciente = getPaciente(atendimentoPacienteForm);
 		
 		Usuario usuario = new Usuario();
+		usuario.setNome(paciente.getNome());
 		usuario.setLogin(paciente.getCpf());
 		usuario.setSenha(passwordEncoder.encode("123456"));
 		usuario.setPerfil(PerfilAcesso.PACIENTE);
+		usuario.setLogin(paciente.getCpf());
+		paciente.setUsuario(usuario);
 		
 		pacienteRepository.save(paciente);
 		
@@ -104,6 +107,8 @@ public class AtendimentoService {
 		paciente.setDataNascimento(atendimentoPacienteForm.getDataNascimento());
 		paciente.setProfissao(atendimentoPacienteForm.getProfissao());
 		paciente.setSexo(atendimentoPacienteForm.getSexo());
+		paciente.setCpf(atendimentoPacienteForm.getCpf().replace(".", "")	
+				.replace("-", ""));
 		return paciente;
 	}
 

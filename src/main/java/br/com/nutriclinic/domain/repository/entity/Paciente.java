@@ -3,6 +3,7 @@ package br.com.nutriclinic.domain.repository.entity;
 import java.time.LocalDate;
 
 import br.com.nutriclinic.domain.enuns.Sexo;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -28,7 +29,7 @@ public class Paciente {
 
 	private String profissao;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.PERSIST)
 	@MapsId
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;
@@ -89,6 +90,14 @@ public class Paciente {
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 }
