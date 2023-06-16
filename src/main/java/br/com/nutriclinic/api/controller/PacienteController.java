@@ -40,6 +40,16 @@ public class PacienteController {
 	@Autowired
 	private PacienteRepository pacienteRepository;
 	
+	@GetMapping("/{idPaciente}")
+	public PacienteModel buscarPacientePorId(@PathVariable Long idPaciente) {
+		Optional<Paciente> paciente = pacienteRepository.findById(idPaciente);
+		if (paciente.isPresent()) {
+			return new PacienteModel(paciente.get());
+		} else {
+			throw new NegocioException("Paciente não encontrado");
+		}
+	}
+	
 	@GetMapping("/cpf/{cpf}")
 	public PacienteModel buscarPaciente(@PathVariable String cpf) {
 		Optional<Paciente> paciente = pacienteRepository.findByCpf(cpf);

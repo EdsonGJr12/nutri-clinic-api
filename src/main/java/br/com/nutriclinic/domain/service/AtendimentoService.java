@@ -91,20 +91,23 @@ public class AtendimentoService {
 			paciente = atualizarDadosPaciente(atendimentoPacienteForm);
 		}
 		
+		Atendimento atendimento;
+		
 		Optional<Atendimento> atendimentoOp = atendimentoRepository.findAtendimentoEmAndamento(paciente.getId());
 		
 		if (atendimentoOp.isPresent()) {
-			return atendimentoOp.get();
+			atendimento = atendimentoOp.get();
 		} else {
-			Atendimento atendimento = new Atendimento();
+			atendimento = new Atendimento();
 			atendimento.setDataAtendimento(LocalDateTime.now());
 			atendimento.setNutricionista(nutricionista.get());
 			atendimento.setPaciente(paciente);
-			atendimento.setAnamnese(atendimentoPacienteForm.getAnamnese());
 			atendimentoRepository.save(atendimento);
-			
-			return atendimento;
 		}
+		
+		atendimento.setAnamnese(atendimentoPacienteForm.getAnamnese());
+		
+		return atendimento;
 	}
 
 	@Transactional
