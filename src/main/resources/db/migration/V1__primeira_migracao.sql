@@ -138,7 +138,7 @@ create table imc(
 	descricao varchar(50),
 	faixa_inicio numeric(10,1),
 	faixa_fim numeric(10,1),
-	classificacao varchar(20)
+	classificacao varchar(30)
 );
 
 create table faulkner_4_pregas(
@@ -255,7 +255,7 @@ insert into alimento(descricao) values ('Suco de manga');
 insert into alimento(descricao) values ('Leite longa vida desnatado');
 insert into alimento(descricao) values ('Morango');
 
-insert into imc(descricao, faixa_inicio, faixa_fim, classificacao) values('Menor que 18,5', 0, 18.4, 'Magreza');
+insert into imc(descricao, faixa_inicio, faixa_fim, classificacao) values('Menor que 18,5', 0, 18.4, 'Abaixo do peso normal');
 insert into imc(descricao, faixa_inicio, faixa_fim, classificacao) values('18,5 a 24,9', 18.5, 24.9, 'Normal');
 insert into imc(descricao, faixa_inicio, faixa_fim, classificacao) values('25 a 29,9', 25, 29.9, 'Sobrepeso');
 insert into imc(descricao, faixa_inicio, faixa_fim, classificacao) values('30 a 34,6', 30, 34.9, 'Obesidade grau I');

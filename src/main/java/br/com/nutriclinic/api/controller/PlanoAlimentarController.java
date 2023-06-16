@@ -75,6 +75,4 @@ public class PlanoAlimentarController {
 			@PathVariable Long idAlimento, @RequestBody @Valid RefeicaoAlimentoForm refeicaoAlimentoForm) {
 		planoAlimentarService.editarAlimentoDaRefeicao(idPlanoAlimentar, idRefeicao, idAlimento, refeicaoAlimentoForm);
 	}
-	
-	
 }

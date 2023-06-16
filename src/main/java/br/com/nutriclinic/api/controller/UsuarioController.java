@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.nutriclinic.api.form.CadastrarUsuarioForm;
 import br.com.nutriclinic.api.model.UsuarioModel;
+import br.com.nutriclinic.domain.enuns.PerfilAcesso;
 import br.com.nutriclinic.domain.exception.NegocioException;
 import br.com.nutriclinic.domain.repository.UsuarioRepository;
 import br.com.nutriclinic.domain.repository.entity.Usuario;
@@ -43,6 +44,7 @@ public class UsuarioController {
 		Usuario usuario = new Usuario();
 		usuario.setLogin(form.getCpf());
 		usuario.setNome(form.getNome());
+		usuario.setPerfil(PerfilAcesso.NUTRICIONISTA);
 		
 		String senhaCriptografada = passwordEncoder.encode(form.getSenha());
 		usuario.setSenha(senhaCriptografada);

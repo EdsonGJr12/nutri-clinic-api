@@ -1,5 +1,7 @@
 package br.com.nutriclinic.domain.service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -121,10 +123,6 @@ public class AtendimentoService {
 		Atendimento atendimento = atendimentoRepository.findById(idAtendimento)
 			.orElseThrow(() -> new NegocioException("Atendimento não encontrado"));
 		
-		if (atendimento.getAvaliacaoFisica() != null) {
-			throw new NegocioException("Atendimento já possui uma avaliação física");
-		}
-		
 		AvaliacaoFisica avaliacaoFisica = getAvaliacaoFisica(avaliacaoFisicaForm);
 		avaliacaoFisica.setPaciente(atendimento.getPaciente());
 		avaliacaoFisicaRepository.save(avaliacaoFisica);
@@ -145,12 +143,31 @@ public class AtendimentoService {
 		Faulker4PregasModel faulknerModel = faulker4PregasService.classificar(faulker4PregasForm);
 		ResultadoAvaliacaoFisicaModel resultadoFaulkner = getResultadoFaulkner(faulknerModel);
 		
+		ResultadoAvaliacaoFisicaModel somaDasDobras = getSomaDasDobras(avaliacaoFisica);
+		
 		resultados.add(resultadoImc);
+		resultados.add(somaDasDobras);
 		resultados.add(resultadoFaulkner);
 		
 		return new AvaliacaoFisicaModel(avaliacaoFisica, resultados);
 	}
 
+
+	private ResultadoAvaliacaoFisicaModel getSomaDasDobras(AvaliacaoFisica avaliacaoFisica) {
+		
+		ResultadoAvaliacaoFisicaModel somaDasDobras = new ResultadoAvaliacaoFisicaModel();
+		somaDasDobras.setParametro("Soma das dobras");
+		
+		BigDecimal abdominal = avaliacaoFisica.getComposicaoCorporal().getAbdominal();
+		BigDecimal subscapular = avaliacaoFisica.getComposicaoCorporal().getSubscapular();
+		BigDecimal suprailiaca = avaliacaoFisica.getComposicaoCorporal().getSuprailiaca();
+		BigDecimal triceps = avaliacaoFisica.getComposicaoCorporal().getTriceps();
+		BigDecimal somatorio = abdominal.add(subscapular).add(suprailiaca).add(triceps).setScale(2, RoundingMode.CEILING);
+		
+		somaDasDobras.setValorAtual(somatorio);
+		
+		return somaDasDobras;
+	}
 
 	@Transactional
 	public PlanoAlimentarModel registrarPlanoAlimentar(Long idAtendimento, PlanoAlimentarForm planoAlimentarForm, UsuarioAutenticado usuarioAutenticado) {
