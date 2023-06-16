@@ -1,6 +1,7 @@
 package br.com.nutriclinic.domain.repository.entity;
 
 import java.time.LocalDate;
+import java.time.Period;
 
 import br.com.nutriclinic.domain.enuns.Sexo;
 import jakarta.persistence.CascadeType;
@@ -98,6 +99,10 @@ public class Paciente {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public Integer calcularIdade() {
+		return Period.between(dataNascimento, LocalDate.now()).getYears();
 	}
 
 }

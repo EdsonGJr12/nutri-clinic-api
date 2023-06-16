@@ -1,4 +1,4 @@
-package br.com.nutriclinic.api.model;
+package br.com.nutriclinic.domain.model;
 
 import java.math.BigDecimal;
 

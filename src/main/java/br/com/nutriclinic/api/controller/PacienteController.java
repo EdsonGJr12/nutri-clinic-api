@@ -6,18 +6,25 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.nutriclinic.api.form.PacienteAtualizacaoForm;
 import br.com.nutriclinic.api.model.DiaSemanaModel;
+import br.com.nutriclinic.api.model.PacienteModel;
 import br.com.nutriclinic.api.model.PlanoAlimentarModel;
 import br.com.nutriclinic.api.model.RefeicaoDiaModel;
 import br.com.nutriclinic.api.model.RefeicaoDiaResumoModel;
 import br.com.nutriclinic.domain.exception.NegocioException;
+import br.com.nutriclinic.domain.repository.PacienteRepository;
 import br.com.nutriclinic.domain.repository.PlanoAlimentarRepository;
+import br.com.nutriclinic.domain.repository.entity.Paciente;
 import br.com.nutriclinic.domain.repository.entity.PlanoAlimentar;
 import br.com.nutriclinic.domain.repository.entity.Refeicao;
 import br.com.nutriclinic.domain.repository.entity.RefeicaoAlimento;
@@ -29,6 +36,35 @@ public class PacienteController {
 	
 	@Autowired
 	private PlanoAlimentarRepository planoAlimentarRepository;
+	
+	@Autowired
+	private PacienteRepository pacienteRepository;
+	
+	@GetMapping("/cpf/{cpf}")
+	public PacienteModel buscarPaciente(@PathVariable String cpf) {
+		Optional<Paciente> paciente = pacienteRepository.findByCpf(cpf);
+		if (paciente.isPresent()) {
+			return new PacienteModel(paciente.get());
+		} else {
+			throw new NegocioException("Paciente não encontrado");
+		}
+	}
+	
+	@PutMapping("/{idPaciente}")
+	@Transactional
+	public void atualizarDadosPaciente(@PathVariable Long idPaciente, @RequestBody PacienteAtualizacaoForm pacienteForm) {
+		Optional<Paciente> pacienteOp = pacienteRepository.findById(idPaciente);
+		if (pacienteOp.isPresent()) {
+			Paciente paciente = pacienteOp.get();
+			paciente.setDataNascimento(pacienteForm.getDataNascimento());
+			paciente.setNome(pacienteForm.getNome());
+			paciente.setProfissao(pacienteForm.getProfissao());
+			paciente.setSexo(pacienteForm.getSexo());
+		} else {
+			throw new NegocioException("Paciente não encontrado");
+		}
+	}
+	
 	
 	@GetMapping("/{idPaciente}/ultimo-plano")
 	public PlanoAlimentarModel buscarUltimoPlanoAlimentar(@PathVariable Long idPaciente) {

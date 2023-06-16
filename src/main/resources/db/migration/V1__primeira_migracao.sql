@@ -141,6 +141,97 @@ create table imc(
 	classificacao varchar(20)
 );
 
+create table faulkner_4_pregas(
+	id bigint auto_increment primary key, 
+	idade_inicio smallint,
+	idade_fim smallint,
+    faixa_inicio numeric(4,2),
+	faixa_fim numeric(6,2),
+	classificacao varchar(20),
+    sexo varchar(10)
+);
+
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (1,18,25,0.00,3.99,'Muito baixo','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (2,18,25,4.00,6.99,'Excelente','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (3,18,25,7.00,10.99,'Muito bom','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (12,18,25,11.00,13.99,'Bom','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (13,18,25,14.00,16.99,'Adequado','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (14,18,25,17.00,20.99,'Moderadamente alto','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (15,18,25,21.00,24.99,'Alto','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (16,18,25,25.00,9999.00,'Muito alto','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (17,26,35,0.00,7.99,'Muito baixo','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (18,26,35,8.00,11.99,'Excelente','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (19,26,35,12.00,15.99,'Muito bom','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (20,26,35,16.00,18.99,'Bom','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (21,26,35,19.00,20.99,'Adequado','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (22,26,35,21.00,24.99,'Moderadamento alto','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (23,26,35,25.00,27.99,'Alto','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (24,26,35,27.00,9999.00,'Muito alto','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (25,36,45,0.00,9.99,'Muito baixo','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (26,36,45,10.00,14.99,'Excelente','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (27,36,45,15.00,18.99,'Muito bom','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (28,36,45,19.00,21.99,'Bom','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (29,36,45,22.00,23.99,'Adequado','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (30,36,45,24.00,25.99,'Moderadamente alto','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (31,36,45,26.00,29.99,'Alto','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (32,36,45,30.00,9999.00,'Muito alto','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (33,46,55,0.00,11.99,'Muito baixo','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (34,46,55,12.00,16.99,'Excelente','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (35,46,55,17.00,20.99,'Muito bom','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (36,46,55,21.00,23.99,'Bom','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (37,46,55,24.00,25.99,'Adequado','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (38,46,55,26.00,27.99,'Moderadamento alto','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (39,46,55,28.00,30.99,'Alto','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (40,46,55,31.00,9999.00,'Muito alto','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (41,56,65,0.00,12.99,'Muito baixo','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (42,56,65,13.00,18.99,'Excelente','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (43,56,65,19.00,21.99,'Muito bom','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (44,56,65,22.00,23.99,'Bom','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (45,56,65,24.00,25.99,'Adequado','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (46,56,65,26.00,27.99,'Moderadamente alto','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (47,56,65,28.00,30.99,'Alto','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (48,56,65,31.00,9999.00,'Muito alto','MASCULINO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (49,18,25,0.00,12.99,'Muito baixo','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (50,18,25,13.00,16.99,'Excelente','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (51,18,25,17.00,19.99,'Muito bom','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (52,18,25,20.00,22.99,'Bom','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (53,18,25,23.00,25.99,'Adequado','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (54,18,25,26.00,28.99,'Moderadamente alto','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (55,18,25,29.00,31.99,'Alto','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (56,18,25,32.00,9999.00,'Muito alto','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (57,26,35,0.00,13.99,'Muito baixo','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (58,26,35,14.00,16.99,'Excelente','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (59,26,35,17.00,20.99,'Muito bom','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (60,26,35,21.00,23.99,'Bom','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (61,26,35,24.00,25.99,'Adequado','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (62,26,35,26.00,29.99,'Moderadamente alto','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (63,26,35,30.00,33.99,'Alto','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (64,26,35,34.00,9999.00,'Muito alto','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (65,36,45,0.00,15.99,'Muito baixo','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (66,35,45,16.00,19.99,'Excelente','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (67,35,45,20.00,23.99,'Muito bom','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (68,35,45,24.00,26.99,'Bom','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (69,35,45,27.00,29.99,'Adequado','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (70,35,45,30.00,32.99,'Moderadamente alto','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (71,35,45,33.00,36.99,'Alto','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (72,35,45,37.00,9999.00,'Muito alto','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (73,46,55,0.00,16.99,'Muito baixo','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (74,46,55,17.00,21.99,'Excelente','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (75,46,55,22.00,25.99,'Muito bom','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (76,46,55,26.00,28.99,'Bom','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (77,46,55,29.00,31.99,'Adequado','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (78,46,55,32.00,34.99,'Moderadamente alto','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (79,46,55,35.00,38.99,'Alto','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (80,46,55,39.00,9999.00,'Muito alto','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (81,56,65,0.00,17.99,'Muito baixo','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (82,56,65,18.00,22.99,'Excelente','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (83,56,65,23.00,26.99,'Muito bom','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (84,56,65,27.00,29.99,'Bom','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (85,56,65,30.00,32.99,'Adequado','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (86,56,65,33.00,35.99,'Moderadamente alto','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (87,56,65,36.00,38.99,'Alto','FEMININO');
+INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (88,56,65,39.00,9999.00,'Muito alto','FEMININO');
+
 insert into medida(descricao, descricao_apresentacao) values('Grama', 'grama(s)');
 insert into medida(descricao, descricao_apresentacao) values('Colher', 'colher(res)');
 insert into medida(descricao, descricao_apresentacao) values('Xícara', 'xírcara(s)');

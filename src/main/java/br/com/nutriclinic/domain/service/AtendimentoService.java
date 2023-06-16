@@ -17,13 +17,15 @@ import br.com.nutriclinic.api.form.PlanoAlimentarForm;
 import br.com.nutriclinic.api.form.RefeicaoAlimentoForm;
 import br.com.nutriclinic.api.form.RefeicaoForm;
 import br.com.nutriclinic.api.model.AvaliacaoFisicaModel;
-import br.com.nutriclinic.api.model.ImcModel;
 import br.com.nutriclinic.api.model.PlanoAlimentarModel;
 import br.com.nutriclinic.api.model.ResultadoAvaliacaoFisicaModel;
 import br.com.nutriclinic.config.UsuarioAutenticado;
 import br.com.nutriclinic.domain.enuns.PerfilAcesso;
 import br.com.nutriclinic.domain.enuns.TipoOcorrenciaHistorico;
 import br.com.nutriclinic.domain.exception.NegocioException;
+import br.com.nutriclinic.domain.form.Faulker4PregasForm;
+import br.com.nutriclinic.domain.model.Faulker4PregasModel;
+import br.com.nutriclinic.domain.model.ImcModel;
 import br.com.nutriclinic.domain.repository.AtendimentoRepository;
 import br.com.nutriclinic.domain.repository.AvaliacaoFisicaRepository;
 import br.com.nutriclinic.domain.repository.NutricionistaRepository;
@@ -69,47 +71,40 @@ public class AtendimentoService {
 	private IMCService imcService;
 	
 	@Autowired
+	private Faulker4PregasService faulker4PregasService;
+	
+	@Autowired
 	private PasswordEncoder passwordEncoder;
 
 	@Transactional
 	public Atendimento iniciarAtendimento(AtendimentoPacienteForm atendimentoPacienteForm, UsuarioAutenticado usuarioAutenticado) {
-		
 		Optional<Nutricionista> nutricionista = nutricionistaRepository.findById(usuarioAutenticado.getId());
 		if (nutricionista.isEmpty()) {
 			throw new NegocioException("Usuário logado não é nutricionista");
 		}
 		
-		Paciente paciente = getPaciente(atendimentoPacienteForm);
+		Paciente paciente;
 		
-		Usuario usuario = new Usuario();
-		usuario.setNome(paciente.getNome());
-		usuario.setLogin(paciente.getCpf());
-		usuario.setSenha(passwordEncoder.encode("123456"));
-		usuario.setPerfil(PerfilAcesso.PACIENTE);
-		usuario.setLogin(paciente.getCpf());
-		paciente.setUsuario(usuario);
+		if (atendimentoPacienteForm.getIdPaciente() == null) {
+			paciente = cadastrarNovoPaciente(atendimentoPacienteForm);
+		} else {
+			paciente = atualizarDadosPaciente(atendimentoPacienteForm);
+		}
 		
-		pacienteRepository.save(paciente);
+		Optional<Atendimento> atendimentoOp = atendimentoRepository.findAtendimentoEmAndamento(paciente.getId());
 		
-		Atendimento atendimento = new Atendimento();
-		atendimento.setDataAtendimento(LocalDateTime.now());
-		atendimento.setNutricionista(nutricionista.get());
-		atendimento.setPaciente(paciente);
-		atendimento.setAnamnese(atendimentoPacienteForm.getAnamnese());
-		atendimentoRepository.save(atendimento);
-		
-		return atendimento;
-	}
-
-	private Paciente getPaciente(AtendimentoPacienteForm atendimentoPacienteForm) {
-		Paciente paciente = new Paciente();
-		paciente.setNome(atendimentoPacienteForm.getNome());
-		paciente.setDataNascimento(atendimentoPacienteForm.getDataNascimento());
-		paciente.setProfissao(atendimentoPacienteForm.getProfissao());
-		paciente.setSexo(atendimentoPacienteForm.getSexo());
-		paciente.setCpf(atendimentoPacienteForm.getCpf().replace(".", "")	
-				.replace("-", ""));
-		return paciente;
+		if (atendimentoOp.isPresent()) {
+			return atendimentoOp.get();
+		} else {
+			Atendimento atendimento = new Atendimento();
+			atendimento.setDataAtendimento(LocalDateTime.now());
+			atendimento.setNutricionista(nutricionista.get());
+			atendimento.setPaciente(paciente);
+			atendimento.setAnamnese(atendimentoPacienteForm.getAnamnese());
+			atendimentoRepository.save(atendimento);
+			
+			return atendimento;
+		}
 	}
 
 	@Transactional
@@ -123,14 +118,26 @@ public class AtendimentoService {
 		
 		atendimento.setAvaliacaoFisica(avaliacaoFisica);
 		
+		return montarResultadoAvalicaoFisica(atendimento, avaliacaoFisica);
+	}
+
+	public AvaliacaoFisicaModel montarResultadoAvalicaoFisica(Atendimento atendimento,
+			AvaliacaoFisica avaliacaoFisica) {
 		List<ResultadoAvaliacaoFisicaModel> resultados = new ArrayList<>();
 		
 		ImcModel imcModel = imcService.classificarImc(avaliacaoFisica.getPeso(), avaliacaoFisica.getAltura());
 		ResultadoAvaliacaoFisicaModel resultadoImc = getResultadoImc(imcModel);
 		
+		Faulker4PregasForm faulker4PregasForm = montarFaulknerForm(avaliacaoFisica, atendimento.getPaciente());
+		Faulker4PregasModel faulknerModel = faulker4PregasService.classificar(faulker4PregasForm);
+		ResultadoAvaliacaoFisicaModel resultadoFaulkner = getResultadoFaulkner(faulknerModel);
+		
 		resultados.add(resultadoImc);
+		resultados.add(resultadoFaulkner);
+		
 		return new AvaliacaoFisicaModel(avaliacaoFisica, resultados);
 	}
+
 
 	@Transactional
 	public PlanoAlimentarModel registrarPlanoAlimentar(Long idAtendimento, PlanoAlimentarForm planoAlimentarForm, UsuarioAutenticado usuarioAutenticado) {
@@ -153,6 +160,64 @@ public class AtendimentoService {
 		pacienteHistoricoRepository.save(ocorrencia);
 		
 		return new PlanoAlimentarModel(planoAlimentar);
+	}
+	
+	private Paciente atualizarDadosPaciente(AtendimentoPacienteForm atendimentoPacienteForm) {
+		Paciente paciente = pacienteRepository.findById(atendimentoPacienteForm.getIdPaciente()).get();
+		paciente.setDataNascimento(atendimentoPacienteForm.getDataNascimento());
+		paciente.setNome(atendimentoPacienteForm.getNome());
+		paciente.setProfissao(atendimentoPacienteForm.getProfissao());
+		paciente.setSexo(atendimentoPacienteForm.getSexo());
+		
+		return paciente;
+	}
+	
+	private Paciente cadastrarNovoPaciente(AtendimentoPacienteForm atendimentoPacienteForm) {
+		Paciente paciente = getPaciente(atendimentoPacienteForm);
+		
+		Usuario usuario = new Usuario();
+		usuario.setNome(paciente.getNome());
+		usuario.setLogin(paciente.getCpf());
+		usuario.setSenha(passwordEncoder.encode("123456"));
+		usuario.setPerfil(PerfilAcesso.PACIENTE);
+		usuario.setLogin(paciente.getCpf());
+		paciente.setUsuario(usuario);
+		
+		pacienteRepository.save(paciente);
+		
+		return paciente;
+	}
+	
+	private Paciente getPaciente(AtendimentoPacienteForm atendimentoPacienteForm) {
+		Paciente paciente = new Paciente();
+		paciente.setNome(atendimentoPacienteForm.getNome());
+		paciente.setDataNascimento(atendimentoPacienteForm.getDataNascimento());
+		paciente.setProfissao(atendimentoPacienteForm.getProfissao());
+		paciente.setSexo(atendimentoPacienteForm.getSexo());
+		paciente.setCpf(atendimentoPacienteForm.getCpf().replace(".", "")	
+				.replace("-", ""));
+		return paciente;
+	}
+	
+	private ResultadoAvaliacaoFisicaModel getResultadoFaulkner(Faulker4PregasModel faulknerModel) {
+		ResultadoAvaliacaoFisicaModel resultadoFaulker = new ResultadoAvaliacaoFisicaModel();
+		resultadoFaulker.setParametro("% Gordura");
+		resultadoFaulker.setValorAtual(faulknerModel.getValor());
+//		resultadoImc.setRecomendacao(imcModel.getRecomendacao());
+		resultadoFaulker.setSituacao(faulknerModel.getSituacao());
+		
+		return resultadoFaulker;
+	}
+
+	private Faulker4PregasForm montarFaulknerForm(AvaliacaoFisica avaliacaoFisicaForm, Paciente paciente) {
+		Faulker4PregasForm faulker4PregasForm = new Faulker4PregasForm();
+		faulker4PregasForm.setAbdominal(avaliacaoFisicaForm.getComposicaoCorporal().getAbdominal());
+		faulker4PregasForm.setSubescapular(avaliacaoFisicaForm.getComposicaoCorporal().getSubscapular());
+		faulker4PregasForm.setSuprailiaca(avaliacaoFisicaForm.getComposicaoCorporal().getSuprailiaca());
+		faulker4PregasForm.setTriceps(avaliacaoFisicaForm.getComposicaoCorporal().getTriceps());
+		faulker4PregasForm.setIdade(paciente.calcularIdade());
+		faulker4PregasForm.setSexo(paciente.getSexo());
+		return faulker4PregasForm;
 	}
 	
 	private PacienteHistorico getOcorrenciaAtendimento(Atendimento atendimento, UsuarioAutenticado usuarioAutenticado) {

@@ -14,6 +14,8 @@ import jakarta.validation.constraints.Past;
 
 public class AtendimentoPacienteForm {
 
+	private Long idPaciente;
+
 	@NotBlank
 	private String nome;
 
@@ -34,6 +36,14 @@ public class AtendimentoPacienteForm {
 	@CPF
 	@NotBlank
 	private String cpf;
+
+	public Long getIdPaciente() {
+		return idPaciente;
+	}
+
+	public void setIdPaciente(Long idPaciente) {
+		this.idPaciente = idPaciente;
+	}
 
 	public String getNome() {
 		return nome;
