@@ -79,4 +79,15 @@ public class AtendimentoController {
 		return atendimentoService.registrarPlanoAlimentar(idAtendimento, planoAlimentarForm, usuarioAutenticado);
 	}
 	
+	@GetMapping("/{idAtendimento}/plano-alimentar")
+	@ResponseStatus(HttpStatus.CREATED)
+	public PlanoAlimentarModel buscarPlanoAlimentar(@PathVariable Long idAtendimento, Authentication authentication) {
+		Optional<Atendimento> atendimentoOp = atendimentoRepository.findById(idAtendimento);
+		if (atendimentoOp.isPresent()) {
+			return new PlanoAlimentarModel(atendimentoOp.get().getPlanoAlimentar());
+		} else {
+			throw new NegocioException("Atendimento não encontrado");
+		}
+	}
+	
 }
