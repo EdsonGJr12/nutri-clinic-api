@@ -4,13 +4,19 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
+
 import br.com.nutriclinic.domain.repository.entity.Refeicao;
 
 public class RefeicaoModel {
 	
 	private Long id;
 	private String descricao;
+	
+	@JsonFormat(shape = Shape.STRING, pattern = "HH:mm")
 	private LocalTime horario;
+	
 	private List<RefeicaoAlimentoModel> alimentos;
 
 	public RefeicaoModel(Refeicao refeicao) {

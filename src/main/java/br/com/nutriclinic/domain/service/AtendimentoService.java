@@ -26,18 +26,18 @@ import br.com.nutriclinic.domain.exception.NegocioException;
 import br.com.nutriclinic.domain.form.Faulker4PregasForm;
 import br.com.nutriclinic.domain.model.Faulker4PregasModel;
 import br.com.nutriclinic.domain.model.ImcModel;
+import br.com.nutriclinic.domain.repository.AlimentoRepository;
 import br.com.nutriclinic.domain.repository.AtendimentoRepository;
 import br.com.nutriclinic.domain.repository.AvaliacaoFisicaRepository;
+import br.com.nutriclinic.domain.repository.MedidaRepository;
 import br.com.nutriclinic.domain.repository.NutricionistaRepository;
 import br.com.nutriclinic.domain.repository.PacienteHistoricoRepository;
 import br.com.nutriclinic.domain.repository.PacienteRepository;
 import br.com.nutriclinic.domain.repository.PlanoAlimentarRepository;
-import br.com.nutriclinic.domain.repository.entity.Alimento;
 import br.com.nutriclinic.domain.repository.entity.Atendimento;
 import br.com.nutriclinic.domain.repository.entity.AvaliacaoFisica;
 import br.com.nutriclinic.domain.repository.entity.Circunferencia;
 import br.com.nutriclinic.domain.repository.entity.ComposicaoCorporal;
-import br.com.nutriclinic.domain.repository.entity.Medida;
 import br.com.nutriclinic.domain.repository.entity.Nutricionista;
 import br.com.nutriclinic.domain.repository.entity.Paciente;
 import br.com.nutriclinic.domain.repository.entity.PacienteHistorico;
@@ -66,6 +66,12 @@ public class AtendimentoService {
 	
 	@Autowired
 	private PacienteHistoricoRepository pacienteHistoricoRepository;
+	
+	@Autowired
+	private AlimentoRepository alimentoRepository;
+	
+	@Autowired
+	private MedidaRepository medidaRepository;
 	
 	@Autowired
 	private IMCService imcService;
@@ -115,6 +121,10 @@ public class AtendimentoService {
 		Atendimento atendimento = atendimentoRepository.findById(idAtendimento)
 			.orElseThrow(() -> new NegocioException("Atendimento não encontrado"));
 		
+		if (atendimento.getAvaliacaoFisica() != null) {
+			throw new NegocioException("Atendimento já possui uma avaliação física");
+		}
+		
 		AvaliacaoFisica avaliacaoFisica = getAvaliacaoFisica(avaliacaoFisicaForm);
 		avaliacaoFisica.setPaciente(atendimento.getPaciente());
 		avaliacaoFisicaRepository.save(avaliacaoFisica);
@@ -156,13 +166,16 @@ public class AtendimentoService {
 		planoAlimentar.setPaciente(atendimento.getPaciente());
 		planoAlimentarRepository.save(planoAlimentar);
 		
+		planoAlimentarRepository.flush();
+		
 		atendimento.setPlanoAlimentar(planoAlimentar);
 		
 		PacienteHistorico ocorrencia = getOcorrenciaAtendimento(atendimento, usuarioAutenticado);
 		
 		pacienteHistoricoRepository.save(ocorrencia);
 		
-		return new PlanoAlimentarModel(planoAlimentar);
+		PlanoAlimentar planoAlimentarSalvo = planoAlimentarRepository.findById(planoAlimentar.getId()).get();
+		return new PlanoAlimentarModel(planoAlimentarSalvo);
 	}
 	
 	private Paciente atualizarDadosPaciente(AtendimentoPacienteForm atendimentoPacienteForm) {
@@ -281,9 +294,9 @@ public class AtendimentoService {
 
 	private RefeicaoAlimento getAlimento(RefeicaoAlimentoForm alimentoForm) {
 		RefeicaoAlimento alimento = new RefeicaoAlimento();
-		alimento.setAlimento(new Alimento(alimentoForm.getIdAlimento()));
+		alimento.setAlimento(alimentoRepository.getReferenceById(alimentoForm.getIdAlimento()));
 		alimento.setQuantidade(alimentoForm.getQuantidade());
-		alimento.setMedida(new Medida(alimentoForm.getIdMedida()));
+		alimento.setMedida(medidaRepository.getReferenceById(alimentoForm.getIdMedida()));
 		
 		return alimento;
 	}
