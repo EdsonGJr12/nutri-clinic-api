@@ -11,7 +11,9 @@ import br.com.nutriclinic.domain.repository.entity.Atendimento;
 @Repository
 public interface AtendimentoRepository extends JpaRepository<Atendimento, Long> {
 
-	@Query("from Atendimento a where a.avaliacaoFisica is null or a.planoAlimentar is null")
+	@Query("from Atendimento a "
+			+ "where a.paciente.id = :idPaciente "
+			+ "and (a.avaliacaoFisica is null or a.planoAlimentar is null)")
 	Optional<Atendimento> findAtendimentoEmAndamento(Long idPaciente);
 
 }

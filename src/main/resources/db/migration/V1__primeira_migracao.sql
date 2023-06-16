@@ -36,36 +36,36 @@ create table paciente_historico(
 
 create table circunferencia(
 	id bigint auto_increment primary key,
-    braco_esquerdo_relaxado numeric,
-    braco_direito_relaxado numeric,
-    braco_esquerdo_contraido numeric,
-    braco_direito_contraido numeric,
-    antebraco_direito numeric,
-    antebraco_esquerdo numeric,
-    punho_esquerdo numeric,
-    punho_direito numeric
+    braco_esquerdo_relaxado numeric(6,2),
+    braco_direito_relaxado numeric(6,2),
+    braco_esquerdo_contraido numeric(6,2),
+    braco_direito_contraido numeric(6,2),
+    antebraco_direito numeric(6,2),
+    antebraco_esquerdo numeric(6,2),
+    punho_esquerdo numeric(6,2),
+    punho_direito numeric(6,2)
 );
 
 create table composicao_corporal(
 	id bigint auto_increment primary key,
     tipo varchar(50),
     protocolo varchar(50),
-    biceps numeric,
-    abdominal numeric,
-    triceps numeric,
-    suprailiaca numeric,
-    axilar_media numeric,
-    subscapular numeric,
-    torax numeric,
-    coxa numeric,
-    panturrilha_medial numeric
+    biceps numeric(6,2),
+    abdominal numeric(6,2),
+    triceps numeric(6,2),
+    suprailiaca numeric(6,2),
+    axilar_media numeric(6,2),
+    subscapular numeric(6,2),
+    torax numeric(6,2),
+    coxa numeric(6,2),
+    panturrilha_medial numeric(6,2)
 );
 
 create table avaliacao_fisica(
 	id bigint auto_increment primary key,
     id_paciente bigint,
-    altura numeric,
-    peso numeric,
+    altura numeric(6,2),
+    peso numeric(6,2),
     id_circunferencia bigint,
     id_composicao_corporal bigint,
     foreign key(id_paciente) references paciente(id_usuario),
@@ -127,7 +127,7 @@ create table refeicao_alimento(
 	id_refeicao bigint,
 	id_alimento bigint,
 	id_medida bigint,
-    quantidade numeric,
+    quantidade numeric(6,2),
     foreign key(id_refeicao) references refeicao(id),
     foreign key(id_alimento) references alimento(id),
     foreign key(id_medida) references medida(id)
