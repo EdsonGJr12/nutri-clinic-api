@@ -44,6 +44,7 @@ import br.com.nutriclinic.domain.repository.entity.Nutricionista;
 import br.com.nutriclinic.domain.repository.entity.Paciente;
 import br.com.nutriclinic.domain.repository.entity.PacienteHistorico;
 import br.com.nutriclinic.domain.repository.entity.PlanoAlimentar;
+import br.com.nutriclinic.domain.repository.entity.PlanoAlimentarDiaSemana;
 import br.com.nutriclinic.domain.repository.entity.Refeicao;
 import br.com.nutriclinic.domain.repository.entity.RefeicaoAlimento;
 import br.com.nutriclinic.domain.repository.entity.Usuario;
@@ -276,9 +277,60 @@ public class AtendimentoService {
 		planoAlimentar.setSabado(planoAlimentarForm.getSabado());
 		planoAlimentar.setDomingo(planoAlimentarForm.getDomingo());
 		
+		List<PlanoAlimentarDiaSemana> dias = new ArrayList<>();
+		
 		List<Refeicao> refeicoes = getRefeicoes(planoAlimentarForm);
 		
-		planoAlimentar.setRefeicoes(refeicoes);
+		if (Boolean.TRUE.equals(planoAlimentar.getDomingo())) {
+			PlanoAlimentarDiaSemana domingo = new PlanoAlimentarDiaSemana();
+			domingo.setDiaSemana(1);
+			domingo.setRefeicoes(refeicoes);
+			dias.add(domingo);
+		}
+		
+		if (Boolean.TRUE.equals(planoAlimentar.getSegunda())) {
+			PlanoAlimentarDiaSemana segunda = new PlanoAlimentarDiaSemana();
+			segunda.setDiaSemana(2);
+			segunda.setRefeicoes(refeicoes);
+			dias.add(segunda);
+		}
+		
+		if (Boolean.TRUE.equals(planoAlimentar.getTerca())) {
+			PlanoAlimentarDiaSemana terca = new PlanoAlimentarDiaSemana();
+			terca.setDiaSemana(3);
+			terca.setRefeicoes(refeicoes);
+			dias.add(terca);
+		}
+		
+		if (Boolean.TRUE.equals(planoAlimentar.getQuarta())) {
+			PlanoAlimentarDiaSemana quarta = new PlanoAlimentarDiaSemana();
+			quarta.setDiaSemana(4);
+			quarta.setRefeicoes(refeicoes);
+			dias.add(quarta);
+		}
+		
+		if (Boolean.TRUE.equals(planoAlimentar.getQuinta())) {
+			PlanoAlimentarDiaSemana quinta = new PlanoAlimentarDiaSemana();
+			quinta.setDiaSemana(5);
+			quinta.setRefeicoes(refeicoes);
+			dias.add(quinta);
+		}
+		
+		if (Boolean.TRUE.equals(planoAlimentar.getSexta())) {
+			PlanoAlimentarDiaSemana sexta = new PlanoAlimentarDiaSemana();
+			sexta.setDiaSemana(6);
+			sexta.setRefeicoes(refeicoes);
+			dias.add(sexta);
+		}
+		
+		if (Boolean.TRUE.equals(planoAlimentar.getSabado())) {
+			PlanoAlimentarDiaSemana sabado = new PlanoAlimentarDiaSemana();
+			sabado.setDiaSemana(7);
+			sabado.setRefeicoes(refeicoes);
+			dias.add(sabado);
+		}
+		
+		planoAlimentar.setDias(dias);
 		
 		return planoAlimentar;
 	}

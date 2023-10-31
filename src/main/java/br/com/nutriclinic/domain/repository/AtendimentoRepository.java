@@ -16,4 +16,6 @@ public interface AtendimentoRepository extends JpaRepository<Atendimento, Long> 
 			+ "and (a.avaliacaoFisica is null or a.planoAlimentar is null)")
 	Optional<Atendimento> findAtendimentoEmAndamento(Long idPaciente);
 
+	Optional<Atendimento> findFirstByPacienteIdOrderByIdDesc(Long idPaciente);
+
 }

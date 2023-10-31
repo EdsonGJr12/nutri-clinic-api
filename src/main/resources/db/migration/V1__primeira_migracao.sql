@@ -88,6 +88,13 @@ create table plano_alimentar(
     foreign key(id_paciente) references paciente(id_usuario)
 );
 
+create table plano_alimentar_dia_semana(
+	id bigint auto_increment primary key,
+    dia_semana smallint,
+    id_plano_alimentar bigint, 
+    foreign key(id_plano_alimentar) references plano_alimentar(id)
+);
+
 create table atendimento(
 	id bigint auto_increment primary key,
     id_nutricionista bigint,
@@ -104,11 +111,11 @@ create table atendimento(
 
 create table refeicao(
 	id bigint auto_increment primary key,
-	id_plano_alimentar bigint,
+	id_plano_alimentar_dia_semana bigint,
     horario time,
     descricao varchar(50),
     observacao varchar(100),
-    foreign key(id_plano_alimentar) references plano_alimentar(id)
+    foreign key(id_plano_alimentar_dia_semana) references plano_alimentar_dia_semana(id)
 );
 
 create table alimento(
@@ -286,11 +293,55 @@ insert into avaliacao_fisica(id_paciente, altura, peso, id_circunferencia, id_co
 
 insert into plano_alimentar(id_paciente, descricao, data_hora_inclusao, segunda, terca, quarta, quinta, sexta, sabado, domingo) values(6, 'Plano alimentar do Francisco', current_timestamp(), true, true, true, true, true, true, true);
 
-insert into refeicao(id_plano_alimentar, horario, descricao, observacao) values(1, '07:00', 'Café da manhã', null);
-insert into refeicao(id_plano_alimentar, horario, descricao, observacao) values(1, '12:00', 'Almoço', null);
-insert into refeicao(id_plano_alimentar, horario, descricao, observacao) values(1, '15:30', 'Lanche da tarde', null);
-insert into refeicao(id_plano_alimentar, horario, descricao, observacao) values(1, '19:00', 'Jantar', null);
-insert into refeicao(id_plano_alimentar, horario, descricao, observacao) values(1, '22:00', 'Ceia', null);
+insert into plano_alimentar_dia_semana(dia_semana, id_plano_alimentar) values(1, 1);
+insert into plano_alimentar_dia_semana(dia_semana, id_plano_alimentar) values(2, 1);
+insert into plano_alimentar_dia_semana(dia_semana, id_plano_alimentar) values(3, 1);
+insert into plano_alimentar_dia_semana(dia_semana, id_plano_alimentar) values(4, 1);
+insert into plano_alimentar_dia_semana(dia_semana, id_plano_alimentar) values(5, 1);
+insert into plano_alimentar_dia_semana(dia_semana, id_plano_alimentar) values(6, 1);
+insert into plano_alimentar_dia_semana(dia_semana, id_plano_alimentar) values(7, 1);
+
+insert into refeicao(id_plano_alimentar_dia_semana, horario, descricao, observacao) values(1, '07:00', 'Café da manhã', null);
+insert into refeicao(id_plano_alimentar_dia_semana, horario, descricao, observacao) values(1, '12:00', 'Almoço', null);
+insert into refeicao(id_plano_alimentar_dia_semana, horario, descricao, observacao) values(1, '15:30', 'Lanche da tarde', null);
+insert into refeicao(id_plano_alimentar_dia_semana, horario, descricao, observacao) values(1, '19:00', 'Jantar', null);
+insert into refeicao(id_plano_alimentar_dia_semana, horario, descricao, observacao) values(1, '22:00', 'Ceia', null);
+
+insert into refeicao(id_plano_alimentar_dia_semana, horario, descricao, observacao) values(2, '07:00', 'Café da manhã', null);
+insert into refeicao(id_plano_alimentar_dia_semana, horario, descricao, observacao) values(2, '12:00', 'Almoço', null);
+insert into refeicao(id_plano_alimentar_dia_semana, horario, descricao, observacao) values(2, '15:30', 'Lanche da tarde', null);
+insert into refeicao(id_plano_alimentar_dia_semana, horario, descricao, observacao) values(2, '19:00', 'Jantar', null);
+insert into refeicao(id_plano_alimentar_dia_semana, horario, descricao, observacao) values(2, '22:00', 'Ceia', null);
+
+insert into refeicao(id_plano_alimentar_dia_semana, horario, descricao, observacao) values(3, '07:00', 'Café da manhã', null);
+insert into refeicao(id_plano_alimentar_dia_semana, horario, descricao, observacao) values(3, '12:00', 'Almoço', null);
+insert into refeicao(id_plano_alimentar_dia_semana, horario, descricao, observacao) values(3, '15:30', 'Lanche da tarde', null);
+insert into refeicao(id_plano_alimentar_dia_semana, horario, descricao, observacao) values(3, '19:00', 'Jantar', null);
+insert into refeicao(id_plano_alimentar_dia_semana, horario, descricao, observacao) values(3, '22:00', 'Ceia', null);
+
+insert into refeicao(id_plano_alimentar_dia_semana, horario, descricao, observacao) values(4, '07:00', 'Café da manhã', null);
+insert into refeicao(id_plano_alimentar_dia_semana, horario, descricao, observacao) values(4, '12:00', 'Almoço', null);
+insert into refeicao(id_plano_alimentar_dia_semana, horario, descricao, observacao) values(4, '15:30', 'Lanche da tarde', null);
+insert into refeicao(id_plano_alimentar_dia_semana, horario, descricao, observacao) values(4, '19:00', 'Jantar', null);
+insert into refeicao(id_plano_alimentar_dia_semana, horario, descricao, observacao) values(4, '22:00', 'Ceia', null);
+
+insert into refeicao(id_plano_alimentar_dia_semana, horario, descricao, observacao) values(5, '07:00', 'Café da manhã', null);
+insert into refeicao(id_plano_alimentar_dia_semana, horario, descricao, observacao) values(5, '12:00', 'Almoço', null);
+insert into refeicao(id_plano_alimentar_dia_semana, horario, descricao, observacao) values(5, '15:30', 'Lanche da tarde', null);
+insert into refeicao(id_plano_alimentar_dia_semana, horario, descricao, observacao) values(5, '19:00', 'Jantar', null);
+insert into refeicao(id_plano_alimentar_dia_semana, horario, descricao, observacao) values(5, '22:00', 'Ceia', null);
+
+insert into refeicao(id_plano_alimentar_dia_semana, horario, descricao, observacao) values(6, '07:00', 'Café da manhã', null);
+insert into refeicao(id_plano_alimentar_dia_semana, horario, descricao, observacao) values(6, '12:00', 'Almoço', null);
+insert into refeicao(id_plano_alimentar_dia_semana, horario, descricao, observacao) values(6, '15:30', 'Lanche da tarde', null);
+insert into refeicao(id_plano_alimentar_dia_semana, horario, descricao, observacao) values(6, '19:00', 'Jantar', null);
+insert into refeicao(id_plano_alimentar_dia_semana, horario, descricao, observacao) values(6, '22:00', 'Ceia', null);
+
+insert into refeicao(id_plano_alimentar_dia_semana, horario, descricao, observacao) values(7, '07:00', 'Café da manhã', null);
+insert into refeicao(id_plano_alimentar_dia_semana, horario, descricao, observacao) values(7, '12:00', 'Almoço', null);
+insert into refeicao(id_plano_alimentar_dia_semana, horario, descricao, observacao) values(7, '15:30', 'Lanche da tarde', null);
+insert into refeicao(id_plano_alimentar_dia_semana, horario, descricao, observacao) values(7, '19:00', 'Jantar', null);
+insert into refeicao(id_plano_alimentar_dia_semana, horario, descricao, observacao) values(7, '22:00', 'Ceia', null);
 
 insert into refeicao_alimento(id_refeicao, id_alimento, quantidade, id_medida) values(1, 1, 10, 3);
 insert into refeicao_alimento(id_refeicao, id_alimento, quantidade, id_medida) values(1, 2, 20, 1);

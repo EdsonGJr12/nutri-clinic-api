@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.nutriclinic.api.form.PlanoAlimentarInformacoesBasicasForm;
 import br.com.nutriclinic.api.form.RefeicaoAlimentoForm;
 import br.com.nutriclinic.api.form.RefeicaoForm;
+import br.com.nutriclinic.api.model.DiaSemanaRefeicaoModel;
 import br.com.nutriclinic.api.model.RefeicaoModel;
 import br.com.nutriclinic.domain.exception.NegocioException;
 import br.com.nutriclinic.domain.repository.PlanoAlimentarRepository;
@@ -38,11 +39,20 @@ public class PlanoAlimentarController {
 		planoAlimentarService.alterarInformacoesBasicas(idPlanoAlimentar, planoAlimentar);
 	}
 	
-	@GetMapping("/{idPlanoAlimentar}/refeicoes")
-	public List<RefeicaoModel> pesquisarRefeicoesDoPlano(@PathVariable Long idPlanoAlimentar) {
+	@GetMapping("/{idPlanoAlimentar}")
+	public List<DiaSemanaRefeicaoModel> pesquisarPlano(@PathVariable Long idPlanoAlimentar) {
+		return planoAlimentarService.pesquisarPlano(idPlanoAlimentar);
+	}
+	
+	@GetMapping("/{idPlanoAlimentar}/{diaSemana}/refeicoes")
+	public List<RefeicaoModel> pesquisarRefeicoesDoPlano(@PathVariable Long idPlanoAlimentar, @PathVariable Integer diaSemana) {
 		PlanoAlimentar planoAlimentar = planoAlimentarRepository.findById(idPlanoAlimentar)
 				.orElseThrow(() -> new NegocioException("Plano alimentar não encontrado"));
-		return planoAlimentar.getRefeicoes().stream()
+		return planoAlimentar.getDias().stream()
+				.filter(dia -> dia.getDiaSemana().equals(diaSemana))
+				.findFirst()
+				.get()
+				.getRefeicoes().stream()
 				.sorted((refeicao1, refeicao2) -> refeicao1.getHorario().compareTo(refeicao2.getHorario()))
 				.map(RefeicaoModel::new)
 				.collect(Collectors.toList());

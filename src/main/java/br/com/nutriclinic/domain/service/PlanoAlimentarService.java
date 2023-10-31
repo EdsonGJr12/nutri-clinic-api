@@ -10,11 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.nutriclinic.api.form.PlanoAlimentarInformacoesBasicasForm;
 import br.com.nutriclinic.api.form.RefeicaoAlimentoForm;
 import br.com.nutriclinic.api.form.RefeicaoForm;
+import br.com.nutriclinic.api.model.DiaSemanaRefeicaoModel;
 import br.com.nutriclinic.domain.exception.NegocioException;
 import br.com.nutriclinic.domain.repository.PlanoAlimentarRepository;
 import br.com.nutriclinic.domain.repository.entity.Alimento;
 import br.com.nutriclinic.domain.repository.entity.Medida;
 import br.com.nutriclinic.domain.repository.entity.PlanoAlimentar;
+import br.com.nutriclinic.domain.repository.entity.PlanoAlimentarDiaSemana;
 import br.com.nutriclinic.domain.repository.entity.Refeicao;
 import br.com.nutriclinic.domain.repository.entity.RefeicaoAlimento;
 
@@ -23,6 +25,16 @@ public class PlanoAlimentarService {
 
 	@Autowired
 	private PlanoAlimentarRepository planoAlimentarRepository;
+	
+	public List<DiaSemanaRefeicaoModel> pesquisarPlano(Long idPlanoAlimentar) {
+		
+		PlanoAlimentar planoAlimentar = planoAlimentarRepository.findById(idPlanoAlimentar)
+				.orElseThrow(() -> new NegocioException("Plano alimentar não encontrado"));
+		
+		return planoAlimentar.getDias().stream()
+				.map(DiaSemanaRefeicaoModel::new)
+				.collect(Collectors.toList()); 
+	}
 
 	@Transactional
 	public void alterarInformacoesBasicas(Long idPlanoAlimentar,
@@ -63,14 +75,16 @@ public class PlanoAlimentarService {
 	public void adicionarAlimentoNaRefeicao(Long idPlanoAlimentar, Long idRefeicao, RefeicaoAlimentoForm alimentoForm) {
 		PlanoAlimentar planoAlimentar = planoAlimentarRepository.findById(idPlanoAlimentar)
 				.orElseThrow(() -> new NegocioException("Plano alimentar não encontrado"));
-		Refeicao refeicaoDoPlano = planoAlimentar.getRefeicoes().stream()
-			.filter(refeicao -> refeicao.getId().equals(idRefeicao))
-			.findFirst()
-			.get();
 		
 		RefeicaoAlimento refeicaoAlimento = getAlimento(alimentoForm);
 		
-		refeicaoDoPlano.adicionarRefeicao(refeicaoAlimento);
+		planoAlimentar.getDias().forEach(dia -> {
+			dia.getRefeicoes().forEach(refeicao -> {
+				if (refeicao.getId().equals(idRefeicao)) {
+					refeicao.adicionarRefeicao(refeicaoAlimento);
+				}
+			});
+		});
 	}
 	
 	@Transactional
@@ -78,11 +92,13 @@ public class PlanoAlimentarService {
 		PlanoAlimentar planoAlimentar = planoAlimentarRepository.findById(idPlanoAlimentar)
 				.orElseThrow(() -> new NegocioException("Plano alimentar não encontrado"));
 		
-		Refeicao refeicaoDoPlano = planoAlimentar.getRefeicoes().stream()
-				.filter(refeicao -> refeicao.getId().equals(idRefeicao))
-				.findFirst()
-				.get();
-		refeicaoDoPlano.removerAlimento(idAlimento);
+		planoAlimentar.getDias().forEach(dia -> {
+			dia.getRefeicoes().forEach(refeicao -> {
+				if (refeicao.getId().equals(idRefeicao)) {
+					refeicao.removerAlimento(idAlimento);			
+				}
+			});
+		});
 	}
 	
 	@Transactional
@@ -92,19 +108,22 @@ public class PlanoAlimentarService {
 		PlanoAlimentar planoAlimentar = planoAlimentarRepository.findById(idPlanoAlimentar)
 				.orElseThrow(() -> new NegocioException("Plano alimentar não encontrado"));
 		
-		Refeicao refeicaoDoPlano = planoAlimentar.getRefeicoes().stream()
-				.filter(refeicao -> refeicao.getId().equals(idRefeicao))
-				.findFirst()
-				.get();
+		List<PlanoAlimentarDiaSemana> dias = planoAlimentar.getDias();
 		
-		RefeicaoAlimento refeicaoAlimento = refeicaoDoPlano.getAlimentos().stream()
-			.filter(alimento -> alimento.getId().equals(idAlimento))
-			.findFirst()
-			.get();
-		
-		refeicaoAlimento.setAlimento(new Alimento(refeicaoAlimentoForm.getIdAlimento()));
-		refeicaoAlimento.setMedida(new Medida(refeicaoAlimentoForm.getIdMedida()));
-		refeicaoAlimento.setQuantidade(refeicaoAlimentoForm.getQuantidade());
+		dias.forEach(dia -> {
+			dia.getRefeicoes().forEach(refeicao -> {
+				if (refeicao.getId().equals(idRefeicao)) {
+					RefeicaoAlimento refeicaoAlimento = refeicao.getAlimentos().stream()
+							.filter(alimento -> alimento.getId().equals(idAlimento))
+							.findFirst()
+							.get();
+					
+					refeicaoAlimento.setAlimento(new Alimento(refeicaoAlimentoForm.getIdAlimento()));
+					refeicaoAlimento.setMedida(new Medida(refeicaoAlimentoForm.getIdMedida()));
+					refeicaoAlimento.setQuantidade(refeicaoAlimentoForm.getQuantidade());
+				}
+			});
+		});
 		
 	}
 	
@@ -135,12 +154,4 @@ public class PlanoAlimentarService {
 		
 		return alimento;
 	}
-
-	
-
-	
-
-	
-
-	
 }

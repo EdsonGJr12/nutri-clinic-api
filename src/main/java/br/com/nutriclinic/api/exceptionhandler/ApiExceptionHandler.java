@@ -50,7 +50,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		
 		HttpStatus status = HttpStatus.UNAUTHORIZED;
 		
-		ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(status, e.getMessage());
+		ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(status, "Usuário ou senha inválidos");
 		
 		return handleExceptionInternal(e, problemDetail, 
 				new HttpHeaders(), status, request);

@@ -1,6 +1,7 @@
 package br.com.nutriclinic.api.model;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import br.com.nutriclinic.domain.repository.entity.PlanoAlimentar;
 
@@ -15,7 +16,7 @@ public class PlanoAlimentarModel {
 	private Boolean sabado;
 	private Boolean domingo;
 
-	private List<RefeicaoModel> refeicoes;
+	private List<DiaSemanaRefeicaoModel> dias;
 
 	public PlanoAlimentarModel(PlanoAlimentar planoAlimentar) {
 		this.id = planoAlimentar.getId();
@@ -28,9 +29,7 @@ public class PlanoAlimentarModel {
 		this.sabado = planoAlimentar.getSabado();
 		this.domingo = planoAlimentar.getDomingo();
 
-		this.refeicoes = planoAlimentar.getRefeicoes()
-				.stream().map(RefeicaoModel::new)
-				.toList();
+		this.dias = planoAlimentar.getDias().stream().map(DiaSemanaRefeicaoModel::new).collect(Collectors.toList());
 	}
 
 	public Long getId() {
@@ -69,8 +68,8 @@ public class PlanoAlimentarModel {
 		return domingo;
 	}
 
-	public List<RefeicaoModel> getRefeicoes() {
-		return refeicoes;
+	public List<DiaSemanaRefeicaoModel> getDias() {
+		return dias;
 	}
 
 }

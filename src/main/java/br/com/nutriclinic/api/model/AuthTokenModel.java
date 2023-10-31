@@ -5,6 +5,7 @@ public class AuthTokenModel {
 	private String nomeUsuario;
 	private String perfilUsuario;
 	private Long idPaciente;
+	private Long idPlanoAlimentar;
 
 	public String getToken() {
 		return token;
@@ -38,4 +39,11 @@ public class AuthTokenModel {
 		this.idPaciente = idPaciente;
 	}
 
+	public Long getIdPlanoAlimentar() {
+		return idPlanoAlimentar;
+	}
+
+	public void setIdPlanoAlimentar(Long idPlanoAlimentar) {
+		this.idPlanoAlimentar = idPlanoAlimentar;
+	}
 }

@@ -157,13 +157,27 @@ public class PacienteController {
 		if (planoAlimentarOp.isPresent()) {
 			PlanoAlimentar planoAlimentar = planoAlimentarOp.get();
 			
-			List<RefeicaoDiaResumoModel> refeicoes = planoAlimentar.getRefeicoes().stream().map(refeicao -> {
-				RefeicaoDiaResumoModel refeicaoDia = new RefeicaoDiaResumoModel();
-				refeicaoDia.setId(refeicao.getId());
-				refeicaoDia.setDescricao(refeicao.getDescricao());
-				refeicaoDia.setHorario(refeicao.getHorario());
-				return refeicaoDia;
-			}).collect(Collectors.toList());
+//			List<RefeicaoDiaResumoModel> refeicoes = planoAlimentar.getDias().stream().map(dia -> {
+//				RefeicaoDiaResumoModel refeicaoDia = new RefeicaoDiaResumoModel();
+//				refeicaoDia.setId(refeicao.getId());
+//				refeicaoDia.setDescricao(refeicao.getDescricao());
+//				refeicaoDia.setHorario(refeicao.getHorario());
+//				return refeicaoDia;
+//			}).collect(Collectors.toList());
+			
+			List<RefeicaoDiaResumoModel> refeicoes = planoAlimentar.getDias().stream()
+				.filter(dia -> dia.getDiaSemana().equals(diaSemana))
+				.findFirst()
+				.get()
+				.getRefeicoes()
+				.stream()
+				.map(refeicao -> {
+					RefeicaoDiaResumoModel refeicaoDia = new RefeicaoDiaResumoModel();
+					refeicaoDia.setId(refeicao.getId());
+					refeicaoDia.setDescricao(refeicao.getDescricao());
+					refeicaoDia.setHorario(refeicao.getHorario());
+					return refeicaoDia;
+				}).collect(Collectors.toList());
 			
 			refeicaoDiaModel.setRefeicoes(refeicoes);
 			
@@ -227,7 +241,11 @@ public class PacienteController {
 				return alimentos;
 			}
 			
-			Refeicao refeicaoEncontrada = planoAlimentar.getRefeicoes().stream()
+			Refeicao refeicaoEncontrada = planoAlimentar.getDias().stream()
+					.filter(dia -> dia.getDiaSemana().equals(diaSemana))
+					.findFirst()
+					.get()
+					.getRefeicoes().stream()
 				.filter(refeicao -> refeicao.getId().equals(idRefeicao))
 				.findFirst()
 				.get();

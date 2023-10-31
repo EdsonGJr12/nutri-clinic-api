@@ -36,7 +36,7 @@ public class PlanoAlimentar {
 
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "id_plano_alimentar")
-	private List<Refeicao> refeicoes;
+	private List<PlanoAlimentarDiaSemana> dias;
 	
 	private LocalDateTime dataHoraInclusao;
 
@@ -120,27 +120,27 @@ public class PlanoAlimentar {
 		this.domingo = domingo;
 	}
 
-	public List<Refeicao> getRefeicoes() {
-		return refeicoes;
-	}
-
-	public void setRefeicoes(List<Refeicao> refeicoes) {
-		this.refeicoes = refeicoes;
-	}
-
-	public void adicionarRefeicao(Refeicao refeicao) {
-		this.refeicoes.add(refeicao);
-	}
-
-	public void removerRefeicao(Long idRefeicao) {
-		this.refeicoes.remove(new Refeicao(idRefeicao));
-	}
-	
 	public LocalDateTime getDataHoraInclusao() {
 		return dataHoraInclusao;
 	}
 	
 	public void setDataHoraInclusao(LocalDateTime dataHoraInclusao) {
 		this.dataHoraInclusao = dataHoraInclusao;
+	}
+
+	public List<PlanoAlimentarDiaSemana> getDias() {
+		return dias;
+	}
+
+	public void setDias(List<PlanoAlimentarDiaSemana> dias) {
+		this.dias = dias;
+	}
+
+	public void adicionarRefeicao(Refeicao refeicao) {
+		this.dias.forEach(dia -> dia.adicionarRefeicao(refeicao));
+	}
+
+	public void removerRefeicao(Long idRefeicao) {
+		this.dias.forEach(dia -> dia.removerRefeicao(idRefeicao));
 	}
 }

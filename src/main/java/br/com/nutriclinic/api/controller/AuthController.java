@@ -1,5 +1,7 @@
 package br.com.nutriclinic.api.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,7 +17,9 @@ import br.com.nutriclinic.api.model.AuthTokenModel;
 import br.com.nutriclinic.config.TokenService;
 import br.com.nutriclinic.domain.enuns.PerfilAcesso;
 import br.com.nutriclinic.domain.exception.NegocioException;
+import br.com.nutriclinic.domain.repository.AtendimentoRepository;
 import br.com.nutriclinic.domain.repository.UsuarioRepository;
+import br.com.nutriclinic.domain.repository.entity.Atendimento;
 import br.com.nutriclinic.domain.repository.entity.Usuario;
 import jakarta.validation.Valid;
 
@@ -33,6 +37,9 @@ public class AuthController {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
+	@Autowired
+	private AtendimentoRepository atendimentoRepository;
+	
 	@PostMapping
 	public AuthTokenModel autenticar(@RequestBody @Valid AuthForm authForm) {
 		AuthTokenModel authTokenModel = new AuthTokenModel();
@@ -45,6 +52,11 @@ public class AuthController {
 		
 		if (usuario.getPerfil().equals(PerfilAcesso.PACIENTE)) {
 			authTokenModel.setIdPaciente(usuario.getId());
+			
+			Optional<Atendimento> atendimento = atendimentoRepository.findFirstByPacienteIdOrderByIdDesc(authTokenModel.getIdPaciente());
+			if (atendimento.isPresent()) {
+				authTokenModel.setIdPlanoAlimentar(atendimento.get().getPlanoAlimentar().getId());
+			}
 		}
 		
 		authTokenModel.setNomeUsuario(usuario.getNome());
