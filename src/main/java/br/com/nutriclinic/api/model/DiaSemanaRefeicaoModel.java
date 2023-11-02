@@ -7,11 +7,13 @@ import br.com.nutriclinic.domain.enuns.DiaSemana;
 import br.com.nutriclinic.domain.repository.entity.PlanoAlimentarDiaSemana;
 
 public class DiaSemanaRefeicaoModel {
+	private Long id;
 	private Integer diaSemana;
 	private String descricaoDiaSemana;
 	private List<RefeicaoModel> refeicoes;
 
 	public DiaSemanaRefeicaoModel(PlanoAlimentarDiaSemana diaSemana) {
+		this.id = diaSemana.getId();
 		this.diaSemana = diaSemana.getDiaSemana();
 		
 		DiaSemana[] dias = DiaSemana.values();
@@ -26,6 +28,10 @@ public class DiaSemanaRefeicaoModel {
 		this.refeicoes = diaSemana.getRefeicoes().stream()
 				.map(RefeicaoModel::new)
 				.collect(Collectors.toList());
+	}
+	
+	public Long getId() {
+		return id;
 	}
 
 	public Integer getDiaSemana() {
