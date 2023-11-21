@@ -3,7 +3,10 @@ create table usuario(
     nome varchar(150) not null,
     login varchar(50) not null,
     senha varchar(100) not null,
-    perfil varchar(50) not null
+    perfil varchar(50) not null,
+    avatar varchar(50),
+    avatar_content_type varchar(10),
+    push_token varchar(200)
 );
 
 create table nutricionista(
@@ -157,6 +160,22 @@ create table faulkner_4_pregas(
 	classificacao varchar(20),
     sexo varchar(10)
 );
+
+create table alerta_hidratacao(
+	id bigint auto_increment primary key, 
+	id_usuario bigint,
+	horario time,
+	foreign key(id_usuario) references usuario(id)
+);
+
+create table historico_notificacoes(
+	id bigint auto_increment primary key, 
+	id_usuario bigint,
+	titulo varchar(50),
+	corpo varchar(100),
+	foreign key(id_usuario) references usuario(id)
+);
+
 
 INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (1,18,25,0.00,3.99,'Muito baixo','MASCULINO');
 INSERT INTO faulkner_4_pregas (`id`,`idade_inicio`,`idade_fim`,`faixa_inicio`,`faixa_fim`,`classificacao`,`sexo`) VALUES (2,18,25,4.00,6.99,'Excelente','MASCULINO');
@@ -362,6 +381,6 @@ insert into refeicao_alimento(id_refeicao, id_alimento, quantidade, id_medida) v
 insert into refeicao_alimento(id_refeicao, id_alimento, quantidade, id_medida) values(5, 11, 100, 4);
 insert into refeicao_alimento(id_refeicao, id_alimento, quantidade, id_medida) values(5, 12, 110, 1);
 
-insert into atendimento(id_paciente, id_nutricionista, data_atendimento) values(6, 1, '2023-04-15');
+insert into atendimento(id_paciente, id_nutricionista, id_plano_alimentar, id_avaliacao_fisica, data_atendimento) values(6, 1, 1, 1, '2023-04-15');
 
 insert into paciente_historico(id_paciente, id_usuario, data_ocorrencia, ocorrencia) values(6, 1, '2023-04-15', 'ATENDIMENTO_NUTRICIONISTA');

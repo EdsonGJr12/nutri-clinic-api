@@ -11,5 +11,7 @@ import br.com.nutriclinic.domain.repository.entity.Usuario;
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
 	Optional<Usuario> findByLogin(String login);
+	
+	Optional<Usuario> findByAvatar(String login);
 
 }

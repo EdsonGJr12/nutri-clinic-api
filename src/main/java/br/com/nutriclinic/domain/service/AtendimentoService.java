@@ -279,54 +279,52 @@ public class AtendimentoService {
 		
 		List<PlanoAlimentarDiaSemana> dias = new ArrayList<>();
 		
-		List<Refeicao> refeicoes = getRefeicoes(planoAlimentarForm);
-		
 		if (Boolean.TRUE.equals(planoAlimentar.getDomingo())) {
 			PlanoAlimentarDiaSemana domingo = new PlanoAlimentarDiaSemana();
 			domingo.setDiaSemana(1);
-			domingo.setRefeicoes(refeicoes);
+			domingo.setRefeicoes(getRefeicoes(planoAlimentarForm));
 			dias.add(domingo);
 		}
 		
 		if (Boolean.TRUE.equals(planoAlimentar.getSegunda())) {
 			PlanoAlimentarDiaSemana segunda = new PlanoAlimentarDiaSemana();
 			segunda.setDiaSemana(2);
-			segunda.setRefeicoes(refeicoes);
+			segunda.setRefeicoes(getRefeicoes(planoAlimentarForm));
 			dias.add(segunda);
 		}
 		
 		if (Boolean.TRUE.equals(planoAlimentar.getTerca())) {
 			PlanoAlimentarDiaSemana terca = new PlanoAlimentarDiaSemana();
 			terca.setDiaSemana(3);
-			terca.setRefeicoes(refeicoes);
+			terca.setRefeicoes(getRefeicoes(planoAlimentarForm));
 			dias.add(terca);
 		}
 		
 		if (Boolean.TRUE.equals(planoAlimentar.getQuarta())) {
 			PlanoAlimentarDiaSemana quarta = new PlanoAlimentarDiaSemana();
 			quarta.setDiaSemana(4);
-			quarta.setRefeicoes(refeicoes);
+			quarta.setRefeicoes(getRefeicoes(planoAlimentarForm));
 			dias.add(quarta);
 		}
 		
 		if (Boolean.TRUE.equals(planoAlimentar.getQuinta())) {
 			PlanoAlimentarDiaSemana quinta = new PlanoAlimentarDiaSemana();
 			quinta.setDiaSemana(5);
-			quinta.setRefeicoes(refeicoes);
+			quinta.setRefeicoes(getRefeicoes(planoAlimentarForm));
 			dias.add(quinta);
 		}
 		
 		if (Boolean.TRUE.equals(planoAlimentar.getSexta())) {
 			PlanoAlimentarDiaSemana sexta = new PlanoAlimentarDiaSemana();
 			sexta.setDiaSemana(6);
-			sexta.setRefeicoes(refeicoes);
+			sexta.setRefeicoes(getRefeicoes(planoAlimentarForm));
 			dias.add(sexta);
 		}
 		
 		if (Boolean.TRUE.equals(planoAlimentar.getSabado())) {
 			PlanoAlimentarDiaSemana sabado = new PlanoAlimentarDiaSemana();
 			sabado.setDiaSemana(7);
-			sabado.setRefeicoes(refeicoes);
+			sabado.setRefeicoes(getRefeicoes(planoAlimentarForm));
 			dias.add(sabado);
 		}
 		

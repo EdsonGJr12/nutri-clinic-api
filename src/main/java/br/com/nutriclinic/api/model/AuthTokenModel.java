@@ -1,11 +1,21 @@
 package br.com.nutriclinic.api.model;
 
 public class AuthTokenModel {
+	private Long id;
 	private String token;
 	private String nomeUsuario;
 	private String perfilUsuario;
 	private Long idPaciente;
 	private Long idPlanoAlimentar;
+	private String avatar;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getToken() {
 		return token;
@@ -45,5 +55,13 @@ public class AuthTokenModel {
 
 	public void setIdPlanoAlimentar(Long idPlanoAlimentar) {
 		this.idPlanoAlimentar = idPlanoAlimentar;
+	}
+
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
 	}
 }

@@ -51,6 +51,7 @@ public class WebSecurityConfiguration {
 			.csrf().disable()
 			.authorizeHttpRequests()
 			.requestMatchers(HttpMethod.POST, "/auth").permitAll()
+			.requestMatchers(HttpMethod.GET, "/avatar/**").permitAll()
 			.anyRequest().authenticated()
 			.and()
 			.sessionManagement()

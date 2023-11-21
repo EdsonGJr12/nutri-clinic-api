@@ -28,8 +28,13 @@ public class Usuario implements UserDetails {
 
 	@Enumerated(EnumType.STRING)
 	private PerfilAcesso perfil;
-	
-	public Usuario() {}
+
+	private String avatar;
+	private String avatarContentType;
+	private String pushToken;
+
+	public Usuario() {
+	}
 
 	public Usuario(Long id) {
 		this.id = id;
@@ -110,4 +115,27 @@ public class Usuario implements UserDetails {
 		this.perfil = perfil;
 	}
 
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
+
+	public String getAvatarContentType() {
+		return avatarContentType;
+	}
+
+	public void setAvatarContentType(String avatarContentType) {
+		this.avatarContentType = avatarContentType;
+	}
+	
+	public String getPushToken() {
+		return pushToken;
+	}
+	
+	public void setPushToken(String pushToken) {
+		this.pushToken = pushToken;
+	}
 }
